@@ -7,3 +7,7 @@ In the course project, you will work in a group of three to four to design, laun
 run the following command to install the required packages:
 npm install -g expo-cli
 
+run the following command to start in expo
+expo start --ios
+
+

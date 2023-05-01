@@ -5,6 +5,14 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1903c4be-fd93-4429-84a5-4a4be3eef632"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "org.name.MyExpoApp2"
+    }
   }
 }
