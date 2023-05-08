@@ -5,11 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ScrollView,
 } from "react-native";
-
-//You'll need to install the following packages:
-//expo install react-navigation react-navigation-stack
-//react - navigation - tabs react - native - gesture - handler react - native - reanimated react - native - screens react - native - safe - area - context @react-native - community / masked - view
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -20,8 +17,12 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Login</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* <Image
+        //source={require("./path/to/logo.png")} // Replace with your logo image path
+        style={styles.logo}
+      /> */}
+      <Text style={styles.heading}>Welcome</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -38,37 +39,68 @@ export default function LoginScreen() {
         secureTextEntry
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>Log in</Text>
       </TouchableOpacity>
-    </View>
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Don't have an account yet?</Text>
+        <TouchableOpacity>
+          <Text style={styles.signupText}> Sign up</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
+    padding: 16,
+    backgroundColor: "#FFFFFF",
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    marginBottom: 30,
   },
   heading: {
-    fontSize: 32,
+    fontSize: 24,
+    fontWeight: "600",
     marginBottom: 40,
   },
   input: {
     borderWidth: 1,
     borderColor: "#333",
-    padding: 8,
-    margin: 10,
-    width: "80%",
+    borderRadius: 4,
+    padding: 16,
+    marginVertical: 8,
+    width: "100%",
   },
   button: {
     backgroundColor: "#333",
-    padding: 10,
+    padding: 16,
     borderRadius: 4,
-    marginTop: 20,
+    width: "100%",
+    alignItems: "center",
   },
   buttonText: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  footer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 24,
+  },
+  footerText: {
+    fontSize: 14,
+    color: "#333",
+  },
+  signupText: {
+    fontSize: 14,
+    color: "#333",
+    textDecorationLine: "underline",
   },
 });
