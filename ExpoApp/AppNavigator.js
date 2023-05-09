@@ -15,6 +15,7 @@ const AuthStack = createStackNavigator({
 
 const AppStack = createBottomTabNavigator({
   Dashboard: DashboardScreen,
+  UserProfile: UserProfileScreen,
   CreateProfile: CreateProfileScreen,
   FriendPairing: FriendPairingScreen,
 });
