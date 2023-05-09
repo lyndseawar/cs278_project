@@ -25,6 +25,7 @@ export default function LoginScreen({ navigation }) {
     const user = userData.find(u => u.email === email && u.password === password);
     if (user) {
       setLoggedInUser(user);
+      navigation.navigate('App', {screen: 'UserProfile'});
     } else {
       alert('Invalid email or password');
     }
