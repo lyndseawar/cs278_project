@@ -22,7 +22,8 @@ export default function LoginScreen() {
         //source={require("./path/to/logo.png")} // Replace with your logo image path
         style={styles.logo}
       /> */}
-      <Text style={styles.heading}>Welcome</Text>
+      <Text style={styles.appName}>Plates</Text>
+      <Text style={styles.tagline}>Find your perfect match</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -64,9 +65,15 @@ const styles = StyleSheet.create({
     height: 150,
     marginBottom: 30,
   },
-  heading: {
-    fontSize: 24,
-    fontWeight: "600",
+  appName: {
+    fontSize: 32,
+    fontWeight: "bold",
+    marginTop: 40,
+    marginBottom: 8,
+  },
+  tagline: {
+    fontSize: 18,
+    fontStyle: "italic",
     marginBottom: 40,
   },
   input: {
@@ -78,9 +85,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   button: {
-    backgroundColor: "#333",
+    backgroundColor: "plum",
     padding: 16,
-    borderRadius: 4,
+    borderRadius: 50,
     width: "100%",
     alignItems: "center",
   },
