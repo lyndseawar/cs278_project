@@ -13,7 +13,9 @@ export default function SignupScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
+      {/* <Text style={styles.title}>Sign Up</Text> */}
+      <Text style={styles.appName}>Plates</Text>
+      <Text style={styles.tagline}>Find your perfect match</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -40,44 +42,68 @@ export default function SignupScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.linkText}>Already have an account? Log In</Text>
-      </TouchableOpacity>
+
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Already have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.linkText}>Log In</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 20,
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+    backgroundColor: "#FFFFFF",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
+  appName: {
+    fontSize: 32,
+    fontWeight: "bold",
+    marginTop: 40,
+    marginBottom: 8,
+  },
+  tagline: {
+    fontSize: 18,
+    fontStyle: "italic",
+    marginBottom: 40,
   },
   input: {
-    height: 40,
-    borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    borderRadius: 5,
+    borderColor: "#333",
+    borderRadius: 4,
+    padding: 16,
+    marginVertical: 8,
+    width: "100%",
   },
   button: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
+    backgroundColor: "plum",
+    padding: 16,
+    borderRadius: 50,
+    width: "100%",
+    alignItems: "center",
   },
   buttonText: {
-    color: 'white',
-    textAlign: 'center',
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
   },
   linkText: {
-    textAlign: 'center',
+    fontSize: 14,
+    color: "#333",
+    textDecorationLine: "underline",
+  },
+  footer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 24,
+  },
+  footerText: {
+    fontSize: 14,
+    color: "#333",
   },
 });
