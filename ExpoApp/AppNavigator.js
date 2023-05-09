@@ -7,7 +7,7 @@ import SignupScreen from "./screens/SignupScreen";
 import CreateProfileScreen from "./screens/CreateProfileScreen";
 import FriendPairingScreen from "./screens/FriendPairingScreen";
 import DashboardScreen from "./screens/DashboardScreen";
-import UserProfileScreen from "./screens/UserProfileScreen";
+import UserProfileScreen from "./screens/UserProfileScreen.js";
 
 const AuthStack = createStackNavigator({
   Login: LoginScreen,
