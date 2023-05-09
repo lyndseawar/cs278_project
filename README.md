@@ -10,4 +10,10 @@ npm install -g expo-cli
 run the following command to start in expo
 expo start --ios
 
+if that doesn't work try
+expo start -c
+
+or 
+npx expo
+
 
