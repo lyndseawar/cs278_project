@@ -16,7 +16,7 @@ const userData = [
     { id: 3, email: 'user3@example.com', password: 'password3', name: 'User Three' },
   ];
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -63,7 +63,10 @@ export default function LoginScreen() {
       </TouchableOpacity>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Don't have an account yet?</Text>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
+          <Text style={styles.signupText}> Sign up</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
           <Text style={styles.signupText}> Sign up</Text>
         </TouchableOpacity>
       </View>
