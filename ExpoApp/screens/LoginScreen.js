@@ -8,12 +8,26 @@ import {
   ScrollView,
 } from "react-native";
 
+
+// Fake user data to be replaced by Supabase data later...
+const userData = [
+    { id: 1, email: 'user1@example.com', password: 'password1', name: 'User One' },
+    { id: 2, email: 'user2@example.com', password: 'password2', name: 'User Two' },
+    { id: 3, email: 'user3@example.com', password: 'password3', name: 'User Three' },
+  ];
+
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   const handleLogin = () => {
-    // Your login logic here
+    const user = userData.find(u => u.email === email && u.password === password);
+    if (user) {
+      setLoggedInUser(user);
+    } else {
+      alert('Invalid email or password');
+    }
   };
 
   return (
@@ -22,6 +36,11 @@ export default function LoginScreen() {
         //source={require("./path/to/logo.png")} // Replace with your logo image path
         style={styles.logo}
       /> */}
+
+      {loggedInUser && (
+        <Text style={styles.loggedinText}>Logged in as {loggedInUser.name}</Text>
+      )}
+
       <Text style={styles.appName}>Plates</Text>
       <Text style={styles.tagline}>Find your perfect match</Text>
       <TextInput
