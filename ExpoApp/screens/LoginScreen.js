@@ -8,42 +8,25 @@ import {
   ScrollView,
 } from "react-native";
 
+
 // Fake user data to be replaced by Supabase data later...
 const userData = [
-  {
-    id: 1,
-    email: "user1@example.com",
-    password: "password1",
-    name: "User One",
-  },
-  {
-    id: 2,
-    email: "user2@example.com",
-    password: "password2",
-    name: "User Two",
-  },
-  {
-    id: 3,
-    email: "user3@example.com",
-    password: "password3",
-    name: "User Three",
-  },
-];
+    { id: 1, email: 'user1@example.com', password: 'password1', name: 'User One' },
+    { id: 2, email: 'user2@example.com', password: 'password2', name: 'User Two' },
+    { id: 3, email: 'user3@example.com', password: 'password3', name: 'User Three' },
+  ];
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   const handleLogin = () => {
-    const user = userData.find(
-      (u) => u.email === email && u.password === password
-    );
+    const user = userData.find(u => u.email === email && u.password === password);
     if (user) {
       setLoggedInUser(user);
-      navigation.navigate("App", { screen: "UserProfile" });
     } else {
-      alert("Invalid email or password");
+      alert('Invalid email or password');
     }
   };
 
@@ -55,9 +38,7 @@ export default function LoginScreen({ navigation }) {
       /> */}
 
       {loggedInUser && (
-        <Text style={styles.loggedinText}>
-          Logged in as {loggedInUser.name}
-        </Text>
+        <Text style={styles.loggedinText}>Logged in as {loggedInUser.name}</Text>
       )}
 
       <Text style={styles.appName}>Plates</Text>
@@ -82,7 +63,10 @@ export default function LoginScreen({ navigation }) {
       </TouchableOpacity>
       <View style={styles.footer}>
         <Text style={styles.footerText}>Don't have an account yet?</Text>
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
+          <Text style={styles.signupText}> Sign up</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
           <Text style={styles.signupText}> Sign up</Text>
         </TouchableOpacity>
       </View>
