@@ -24,7 +24,7 @@ const WelcomeScreen = ({ navigation }) => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Plates</Text>
         <Text style={styles.tagline}>
-          The best way to set your next platonic date
+          the best way to set your next platonic date
         </Text>
       </View>
       <View style={styles.bottomContainer}>
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     paddingBottom: height / 8,
+    alignItems: "center",
   },
   signUpButton: {
     width: width * 0.8,
@@ -79,7 +80,9 @@ const styles = StyleSheet.create({
   signInText: {
     fontSize: 16,
     color: "#4B0082",
+    marginTop: 12,
     fontFamily: "Poppins-Regular",
+    justifyContent: "center",
   },
 });
 
