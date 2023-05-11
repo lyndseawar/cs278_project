@@ -5,8 +5,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  ImageBackground,
 } from "react-native";
-import { AppLoading } from "expo";
+import welcomeImage from "../assets/boy-and-girl-giving-high-five-to-each-other.png";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,11 +21,16 @@ const WelcomeScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={welcomeImage}
+      style={styles.container}
+      resizeMode="contain"
+    >
+      <View style={styles.dimmingOverlay} />
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Plates</Text>
         <Text style={styles.tagline}>
-          the best way to set your next platonic date
+          The best way to set your next platonic date
         </Text>
       </View>
       <View style={styles.bottomContainer}>
@@ -35,21 +41,28 @@ const WelcomeScreen = ({ navigation }) => {
           <Text style={styles.signInText}>Sign In</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     alignItems: "center",
     backgroundColor: "#FFF",
   },
+  dimmingOverlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.01)",
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+  },
   titleContainer: {
-    flex: 1,
-    justifyContent: "center",
+    height: height * 0.3,
+    justifyContent: "flex-end",
     alignItems: "center",
+    paddingTop: height * 0.1,
   },
   title: {
     fontSize: 48,
@@ -60,8 +73,10 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
   bottomContainer: {
-    paddingBottom: height / 8,
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
+    paddingBottom: height/8,
   },
   signUpButton: {
     width: width * 0.8,
