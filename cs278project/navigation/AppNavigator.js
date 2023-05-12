@@ -26,12 +26,15 @@ function AppStackNavigator() {
   return (
     <AppStack.Navigator
       initialRouteName="Welcome"
-      screenOptions={{ headerMode: 'screen', headerShown: false }}
+      screenOptions={{ headerMode: "screen", headerShown: false }}
     >
       <AppStack.Screen name="Welcome" component={WelcomeScreen} />
       <AppStack.Screen name="Login" component={LoginScreen} />
       <AppStack.Screen name="Signup" component={SignupScreen} />
       <AppStack.Screen name="App" component={AppTabs} />
+      <AppStack.Screen name="Home" component={HomeScreen} />
+      <AppStack.Screen name="Matches" component={MatchesScreen} />
+      <AppStack.Screen name="Profile" component={ProfileScreen} />
     </AppStack.Navigator>
   );
 }

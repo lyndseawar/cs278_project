@@ -28,7 +28,7 @@ const WelcomeScreen = ({ navigation }) => {
     >
       <View style={styles.dimmingOverlay} />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Plates</Text>
+        <Text style={styles.title}>Platedate</Text>
         <Text style={styles.tagline}>
           the best way to set your next platonic date
         </Text>
