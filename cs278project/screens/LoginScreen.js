@@ -51,12 +51,14 @@ const LoginScreen = ({ navigation }) => {
           placeholder="Enter your password"
           placeholderTextColor="#aaa"
         />
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Log In</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Signup")}>
-          <Text style={styles.backButtonText}>Don't have an account? Sign Up! </Text>
-        </TouchableOpacity>
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={styles.loginButtonText}>Log In</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Signup")}>
+            <Text style={styles.backButtonText}>Don't have an account? Sign Up! </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -114,6 +116,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     fontFamily: "Poppins-Regular",
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: "#4B0082",
+    marginTop: 12,
+    fontFamily: "Poppins-Regular",
+    justifyContent: "center",
+  },
+  bottomContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingBottom: height / 4,
   },
 });
 
