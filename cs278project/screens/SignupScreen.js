@@ -1,17 +1,3 @@
-// import React from "react";
-// import { View, Text } from "react-native";
-
-// const SignupScreen = () => {
-//   return (
-//     <View>
-//       <Text>Signup Screen</Text>
-//     </View>
-//   );
-// };
-
-// export default SignupScreen;
-
-
 import React, { useState } from "react";
 import {
   View,
@@ -91,12 +77,14 @@ const SignupScreen = ({ navigation }) => {
           placeholder="Confirm your password"
           placeholderTextColor="#aaa"
         />
-        <TouchableOpacity style={styles.loginButton} onPress={handleSignup}>
-          <Text style={styles.loginButtonText}>Signup</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Login")}>
-          <Text style={styles.backButtonText}>Already have an account? Login!</Text>
-        </TouchableOpacity>
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity style={styles.loginButton} onPress={handleSignup}>
+            <Text style={styles.loginButtonText}>Signup</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Login")}>
+            <Text style={styles.backButtonText}>Already have an account? Login!</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -154,6 +142,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 18,
     fontFamily: "Poppins-Bold",
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: "#4B0082",
+    marginTop: 12,
+    fontFamily: "Poppins-Regular",
+    justifyContent: "center",
+  },
+  bottomContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingBottom: height / 8,
   },
 });
 
