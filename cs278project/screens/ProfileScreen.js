@@ -3,13 +3,13 @@ import { View, Text, Button, StyleSheet } from "react-native";
 
 const ProfileScreen = ({ navigation }) => {
   const handlePress = () => {
-    navigation.navigate("Matches");
+    navigation.navigate("Feed");
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile Screen</Text>
-      <Button title="Go to Matches" onPress={handlePress} />
+      <Button title="Go To Feed" onPress={handlePress} />
     </View>
   );
 };

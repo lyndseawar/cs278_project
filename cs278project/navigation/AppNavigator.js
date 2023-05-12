@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
 import HomeScreen from "../screens/HomeScreen";
-import MatchesScreen from "../screens/MatchesScreen";
+import FeedScreen from "../screens/FeedScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 
@@ -33,7 +33,7 @@ function AppStackNavigator() {
       <AppStack.Screen name="Signup" component={SignupScreen} />
       <AppStack.Screen name="App" component={AppTabs} />
       <AppStack.Screen name="Home" component={HomeScreen} />
-      <AppStack.Screen name="Matches" component={MatchesScreen} />
+      <AppStack.Screen name="Feed" component={FeedScreen} />
       <AppStack.Screen name="Profile" component={ProfileScreen} />
     </AppStack.Navigator>
   );
