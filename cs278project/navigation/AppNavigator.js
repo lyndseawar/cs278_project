@@ -25,7 +25,13 @@ function AppTabs() {
 
 function AppStackNavigator() {
   return (
-    <AppStack.Navigator initialRouteName="Welcome">
+    <AppStack.Navigator
+      initialRouteName="Welcome"
+      options={{
+        headerTintColor: "#FFF",
+        headerTitleStyle: { fontFamily: "Poppins-Regular" },
+      }}
+    >
       <AppStack.Screen
         name="Welcome"
         component={WelcomeScreen}
