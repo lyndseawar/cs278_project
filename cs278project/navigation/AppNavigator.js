@@ -8,6 +8,7 @@ import HomeScreen from "../screens/HomeScreen";
 import FeedScreen from "../screens/FeedScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
+import ProposeScreen from "../screens/ProposeScreen";
 
 const AppStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -35,6 +36,7 @@ function AppStackNavigator() {
       <AppStack.Screen name="Home" component={HomeScreen} />
       <AppStack.Screen name="Feed" component={FeedScreen} />
       <AppStack.Screen name="Profile" component={ProfileScreen} />
+      <AppStack.Screen name="Propose" component={ProposeScreen} />
     </AppStack.Navigator>
   );
 }
