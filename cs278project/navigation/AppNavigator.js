@@ -25,18 +25,47 @@ function AppTabs() {
 
 function AppStackNavigator() {
   return (
-    <AppStack.Navigator
-      initialRouteName="Welcome"
-      screenOptions={{ headerMode: "screen", headerShown: false }}
-    >
-      <AppStack.Screen name="Welcome" component={WelcomeScreen} />
-      <AppStack.Screen name="Login" component={LoginScreen} />
-      <AppStack.Screen name="Signup" component={SignupScreen} />
-      <AppStack.Screen name="App" component={AppTabs} />
-      <AppStack.Screen name="Home" component={HomeScreen} />
-      <AppStack.Screen name="Feed" component={FeedScreen} />
-      <AppStack.Screen name="Profile" component={ProfileScreen} />
-      <AppStack.Screen name="Propose" component={ProposeScreen} />
+    <AppStack.Navigator initialRouteName="Welcome">
+      <AppStack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />
+      <AppStack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <AppStack.Screen
+        name="Signup"
+        component={SignupScreen}
+        options={{ headerShown: false }}
+      />
+      <AppStack.Screen
+        name="App"
+        component={AppTabs}
+        options={{ headerShown: false }}
+      />
+      <AppStack.Screen
+        name="Home"
+        component={HomeScreen}
+        screenOptions={{ headerMode: "screen", headerShown: true }}
+      />
+      <AppStack.Screen
+        name="Feed"
+        component={FeedScreen}
+        screenOptions={{ headerMode: "screen", headerShown: true }}
+      />
+      <AppStack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        screenOptions={{ headerMode: "screen", headerShown: true }}
+      />
+      <AppStack.Screen
+        name="Propose"
+        component={ProposeScreen}
+        screenOptions={{ headerMode: "screen", headerShown: true }}
+      />
     </AppStack.Navigator>
   );
 }
