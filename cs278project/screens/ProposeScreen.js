@@ -8,22 +8,21 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const { width, height } = Dimensions.get("window");
 
 const ProposeScreen = () => {
-  const [activity, setActivity] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [guests, setGuests] = useState('');
-  const [location, setLocation] = useState('');
+  const [activity, setActivity] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [guests, setGuests] = useState("");
+  const [location, setLocation] = useState("");
   const [isPickerVisible, setPickerVisible] = useState(false);
-
 
   const handleDone = () => {
     // Perform action when the "Done" button is pressed
     // You can access the form values here
-    console.log('Activity:', activity);
-    console.log('Date:', date);
-    console.log('Time:', time);
-    console.log('Guests:', guests);
-    console.log('Location:', location);
+    console.log("Activity:", activity);
+    console.log("Date:", date);
+    console.log("Time:", time);
+    console.log("Guests:", guests);
+    console.log("Location:", location);
   };
 
   const showPicker = () => {
@@ -88,7 +87,7 @@ const ProposeScreen = () => {
             selectedValue={guests}
             onValueChange={handlePickerValueChange}
           >
-             <Picker.Item label="1" value="1" />
+            <Picker.Item label="1" value="1" />
             <Picker.Item label="2" value="2" />
             <Picker.Item label="3" value="3" />
             <Picker.Item label="4" value="4" />
@@ -136,19 +135,19 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
     flexDirection: "row",
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     paddingHorizontal: 8,
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     padding: 8,
   },
   DoneButton: {
