@@ -10,14 +10,13 @@ function PostCard({ item, isCommitted, handleCommit }) {
         <Text style={styles.name}>{"John D."}</Text>
       </View>
       <Text style={styles.activity}>{item.activity}</Text>
-      <Text style={styles.date}>Date goes here</Text>
+      <Text style={styles.date}>date goes here</Text>
       <View style={styles.bottomContainer}>
         <View style={styles.commitmentContainer}>
-          <Text style={styles.bold}>{item.signedUpAttendees}</Text>
-          <Text style={styles.text}>
-            {" "}
-            out of {item.totalAttendees} have signed up
+          <Text style={styles.bold}>
+            {item.signedUpAttendees} have committed{" "}
           </Text>
+          <Text styles={styles.text}>{item.totalAttendees} needed </Text>
         </View>
         <TouchableOpacity
           style={isCommitted ? styles.committedButton : styles.button}
@@ -25,7 +24,7 @@ function PostCard({ item, isCommitted, handleCommit }) {
           disabled={isCommitted}
         >
           <Text style={styles.buttonText}>
-            {isCommitted ? "Committed" : "Want to commit"}
+            {isCommitted ? "committed" : "want to commit"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -37,8 +36,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     borderRadius: 15,
-    padding: 15,
-    marginBottom: 10,
+    padding: 17,
+    marginBottom: 12,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -80,11 +79,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   commitmentContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
   },
   bold: {
-    fontFamily: "Poppins-Regular",
-    fontSize: 12,
+    fontFamily: "Poppins-Bold",
+    fontSize: 17,
     fontWeight: "bold",
     marginRight: 5,
   },
@@ -95,12 +94,12 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#4B0082",
     borderRadius: 20,
-    padding: 3,
+    padding: 9,
   },
   committedButton: {
     backgroundColor: "#999",
     borderRadius: 20,
-    padding: 3,
+    padding: 9,
   },
   buttonText: {
     color: "#fff",

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import PostCard from "../components/PostCard";
+
 const feed = [
   {
     id: 1,
@@ -8,8 +9,25 @@ const feed = [
     totalAttendees: 5,
     signedUpAttendees: 3,
   },
-  { id: 2, activity: "Movie night", totalAttendees: 8, signedUpAttendees: 4 },
-  // More posts...
+  { id: 2, activity: "movie night", totalAttendees: 8, signedUpAttendees: 4 },
+  {
+    id: 3,
+    activity: "study group @ EVGR",
+    totalAttendees: 3,
+    signedUpAttendees: 2,
+  },
+  {
+    id: 4,
+    activity: "dinner @ stern",
+    totalAttendees: 4,
+    signedUpAttendees: 1,
+  },
+  {
+    id: 5,
+    activity: "basketball game",
+    totalAttendees: 5,
+    signedUpAttendees: 3,
+  },
 ];
 
 function FeedScreen() {
@@ -22,7 +40,7 @@ function FeedScreen() {
   };
 
   return (
-    <ScrollView horizontal contentContainerStyle={styles.scrollView}>
+    <ScrollView contentContainerStyle={styles.scrollView}>
       {feed.map((item) => (
         <PostCard
           key={item.id}
@@ -37,6 +55,7 @@ function FeedScreen() {
 
 const styles = StyleSheet.create({
   scrollView: {
+    paddingTop: 15,
     alignItems: "center",
     justifyContent: "center",
   },
