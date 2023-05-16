@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, SafeAreaView, TouchableOpacity, Dimensions} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-// import {Picker} from '@react-native-picker/picker';
+import {Picker} from '@react-native-picker/picker';
 import Ionicons from "react-native-vector-icons/Ionicons";
 // import DatePicker from 'react-native-date-picker'
 
@@ -114,8 +114,7 @@ const ProposeScreen = () => {
       <View style={styles.bottomContainer}>
           <TouchableOpacity
             style={styles.DoneButton}
-            // onPress={() => navigation.navigate("FeedScreen")}
-            // on press pop up 
+            //onPress={() => navigation.navigate("FeedScreen")}
             >
             <Text style={styles.DoneButtonText}>Done</Text>
           </TouchableOpacity>
@@ -128,6 +127,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    // backgroundColor: "pink",
   },
   section: {
     marginBottom: 10, 
