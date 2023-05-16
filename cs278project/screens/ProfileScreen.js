@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Image, StyleSheet, TouchableOpacity, Touchable } from 'react-native';
+import { View, Text, TextInput, ScrollView, Image, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 
 const ProfileScreen = ({ navigation }) => {
+
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+
   return (
     <ScrollView style={styles.ScrollView}>
       <View style={styles.nameView}>
@@ -10,8 +14,8 @@ const ProfileScreen = ({ navigation }) => {
       </View>
       
       <View>
-        <Text style={styles.header}>Preferred Dining Hall</Text>
-        <TextInput>Stern</TextInput>
+        <Text style={styles.diningHallTitle}>Preferred Dining Hall</Text>
+        <TextInput style={styles.diningHall}>Stern</TextInput>
       </View>
 
       <View>
@@ -41,18 +45,36 @@ const ProfileScreen = ({ navigation }) => {
 
       <View> 
         <Text style={styles.header}>Preferred Plate Time</Text>
-        <TextInput>Lunch</TextInput>
+        <TextInput style={styles.plateTime}>Lunch</TextInput>
       </View>
 
-      <View>
-        <Text style={styles.header}>Open Invites</Text>
-        {/* add switch from figma here */}
-      </View>
+      <View style={styles.switchParent}>
+          <Text style={styles.header}>Open Invites</Text>
+          <View style={styles.switchContainer}>
+            <Text style={styles.switchText}>I like to get to know people 1 on 1</Text>
+            <Switch
+              trackColor={{ false: "#767577", true: "#4B0082" }}
+              thumbColor={"#f4f3f4"}
+              ios_backgroundColor="lightgray"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+            />
+            <Text style={styles.switchText}>The more people the merrier</Text>
+          </View>
+          
+        </View>
 
       <View>
         <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate("Welcome")}>
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
+      </View>
+
+      <View>
+        {/* this bullshit is here so we can scroll to the bottom better */}
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
       </View>
     </ScrollView>
   );
@@ -124,7 +146,36 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "right",
     marginTop: 5,
-  }
+  },
+  diningHall: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 18,
+    paddingBottom: 10,
+    color: "#4B0082",
+  },
+  diningHallTitle: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  plateTime: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 18,
+    paddingBottom: 10,
+    color: "#4B0082",
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  switchText: {
+    fontSize: 12, 
+    flexShrink: 1,
+    marginHorizontal: 10, 
+    color: "#4B0082",
+  },
 });
 
 
