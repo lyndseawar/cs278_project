@@ -1,30 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import avatar from "../assets/avatars/avatar1.png";
 
-function PostCard({ item, isCommitted, handleCommit }) {
+function PostCard({ item }) {
+  const [committed, setCommitted] = useState(false);
+  const { activity, name, avatar, date, totalAttendees, signedUpAttendees } =
+    item;
+
+  const handleCommit = () => {
+    setCommitted(!committed);
+    console.log("postId", item.id);
+  };
+
   return (
     <View style={styles.card}>
       <View style={styles.headerContainer}>
         <Image source={avatar} style={styles.avatar} />
-        <Text style={styles.name}>{"John D."}</Text>
+        <Text style={styles.name}>{name}</Text>
       </View>
-      <Text style={styles.activity}>{item.activity}</Text>
-      <Text style={styles.date}>date goes here</Text>
+      <Text style={styles.activity}>{activity}</Text>
+      <Text style={styles.date}>{date}</Text>
       <View style={styles.bottomContainer}>
         <View style={styles.commitmentContainer}>
-          <Text style={styles.bold}>
-            {item.signedUpAttendees} have committed{" "}
-          </Text>
-          <Text styles={styles.text}>{item.totalAttendees} needed </Text>
+          <Text style={styles.bold}>{signedUpAttendees} have committed </Text>
+          <Text styles={styles.text}>{totalAttendees} needed </Text>
         </View>
         <TouchableOpacity
-          style={isCommitted ? styles.committedButton : styles.button}
-          onPress={() => handleCommit(item.id)}
-          disabled={isCommitted}
+          style={committed ? styles.committedButton : styles.button}
+          onPress={handleCommit}
         >
           <Text style={styles.buttonText}>
-            {isCommitted ? "committed" : "i want to go"}
+            {committed ? "committed" : "i want to go"}
           </Text>
         </TouchableOpacity>
       </View>
