@@ -29,11 +29,9 @@ function AppTabs() {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+        tabBarActiveTintColor: "#4B0082",
+        tabBarInactiveTintColor: "gray",
       })}
-      tabBarOptions={{
-        activeTintColor: "#4B0082",
-        inactiveTintColor: "gray",
-      }}
     >
       <Tab.Screen name="Feed" component={FeedScreen} />
       <Tab.Screen name="Propose" component={ProposeScreen} />
