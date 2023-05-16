@@ -22,10 +22,10 @@ function AppTabs() {
           let iconName;
           if (route.name === "Feed") {
             iconName = focused ? "list" : "list-outline";
-          } else if (route.name === "Profile") {
-            iconName = focused ? "person" : "person-outline";
           } else if (route.name === "Propose") {
             iconName = focused ? "create" : "create-outline";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "person" : "person-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -36,8 +36,8 @@ function AppTabs() {
       }}
     >
       <Tab.Screen name="Feed" component={FeedScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Propose" component={ProposeScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
