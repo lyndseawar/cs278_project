@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, SafeAreaView, TouchableOpacity, Dimensions, ScrollView} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import {Picker} from '@react-native-picker/picker';
 // import DatePicker from 'react-native-date-picker'
 
 const { width, height } = Dimensions.get("window");
 
-const ProposeScreen = () => {
+const ProposeScreen = ({ navigation }) => {
+
   const [activity, setActivity] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
@@ -14,6 +16,7 @@ const ProposeScreen = () => {
   const [location, setLocation] = useState("");
   const [isPickerVisible, setPickerVisible] = useState(false);
 
+  // this is where we would store the data into supabase
   const handleDone = () => {
     // Perform action when the "Done" button is pressed
     // You can access the form values here
@@ -37,11 +40,10 @@ const ProposeScreen = () => {
     hidePicker();
   };
 
-  
-
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.card}>
       <ScrollView>
         <View style={styles.section}>
         <Text style={styles.sectionTitle}>Activity</Text>
@@ -56,6 +58,7 @@ const ProposeScreen = () => {
           <View style={styles.sectionTitle}>
             <Ionicons name="calendar" size={32} />
             <Text style={styles.sectionTitle}> Date</Text>
+            {/* make this a react date picker */}
           </View>
           <TextInput
             style={styles.input}
@@ -68,6 +71,7 @@ const ProposeScreen = () => {
           <View style={styles.sectionTitle}>
             <Ionicons name="time" size={32} />
             <Text style={styles.sectionTitle}> Time</Text>
+            {/* make this two react time pickers */}
           </View>
           <TextInput
             style={styles.input}
@@ -97,7 +101,6 @@ const ProposeScreen = () => {
               <Picker.Item label="8" value="8" />
               <Picker.Item label="9" value="9" />
               <Picker.Item label="10" value="10" />
-              {/* Add more options as needed */}
             </Picker>
           )}
         </View>
@@ -113,7 +116,10 @@ const ProposeScreen = () => {
         <View style={styles.bottomContainer}>
           <TouchableOpacity
             style={styles.DoneButton}
-            //onPress={() => navigation.navigate("FeedScreen")}
+            onPress={() => {
+              navigation.navigate("Feed"); // could create a pop up to confirm, and clear the page
+              handleDone();
+            }}
             >
             <Text style={styles.DoneButtonText}>Done</Text>
           </TouchableOpacity>
@@ -124,6 +130,7 @@ const ProposeScreen = () => {
           <Text></Text>
         </View>
       </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -133,6 +140,19 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     // backgroundColor: "pink",
+  },
+  card: {
+    flex: 1,
+    margin: 10,
+    backgroundColor: "pink",
+    borderRadius: 10,
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
   },
   section: {
     marginBottom: 10, 
@@ -173,13 +193,9 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.23,
-    fontSize: 30,
   },
-  picker: {
-    fontSize: 30,
-  },
-  PickerText: {
-    fontSize: 30,
+  pickerText: {
+    fontSize: 28,
   },
   DoneButton: {
     width: width * 0.4,
