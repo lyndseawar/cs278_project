@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     height: 50,
     borderWidth: 1,
-    borderColr: "gray",
+    borderColor: "gray",
     padding: 8,
     borderRadius: 10,
     backgroundColor: "white",
