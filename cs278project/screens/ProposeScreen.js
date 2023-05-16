@@ -26,6 +26,20 @@ const ProposeScreen = ({ navigation }) => {
     console.log("Time:", time);
     console.log("Guests:", guests);
     console.log("Location:", location);
+    console.log("Notes", notes);
+
+    // Reset the form values
+    setActivity("");
+    setDate("");
+    setTime("");
+    setGuests("");
+    setLocation("");
+    setNotes("");
+
+    // Navigate to the desired screen
+    navigation.navigate("Feed");
+
+    // could create a pop up to confirm, and clear the page
   };
 
   const showPicker = () => {
@@ -127,7 +141,6 @@ const ProposeScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.DoneButton}
             onPress={() => {
-              navigation.navigate("Feed"); // could create a pop up to confirm, and clear the page
               handleDone();
             }}
             >
