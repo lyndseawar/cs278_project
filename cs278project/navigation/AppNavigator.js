@@ -19,6 +19,7 @@ function AppTabs() {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Matches" component={MatchesScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Propose" component={ProposeScreen} />
     </Tab.Navigator>
   );
 }
