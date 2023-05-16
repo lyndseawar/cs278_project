@@ -12,7 +12,8 @@ const ProposeScreen = ({ navigation }) => {
   
     return (
     
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Activity:</Text>
       <TextInput
         style={styles.input}
         onChangeText={onChangeNumber}
@@ -20,10 +21,9 @@ const ProposeScreen = ({ navigation }) => {
         placeholder="useless placeholder"
         keyboardType="numeric"
       />
-      <View style={styles.container}>
-        <Text style={styles.title}>Activity:</Text>
-        <Button title="Go to Matches" onPress={handlePress} />
-      </View>
+      <Text style={styles.title}>Date & Time:</Text>
+      <Ionicons name="calendar-number" size={32} />
+      <Button title="Done (Go to Matches)" onPress={handlePress} />
     </SafeAreaView>
     );
   };
@@ -33,6 +33,7 @@ const ProposeScreen = ({ navigation }) => {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
+      backgroundColor: "pink",
     },
     title: {
       fontSize: 24,
