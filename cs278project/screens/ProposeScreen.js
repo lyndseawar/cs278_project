@@ -165,6 +165,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "gray",
     padding: 8,
+    borderRadius: 10,
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    fontSize: 30,
+  },
+  picker: {
+    fontSize: 30,
   },
   PickerText: {
     fontSize: 30,
