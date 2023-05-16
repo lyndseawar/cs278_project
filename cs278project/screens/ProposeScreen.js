@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, SafeAreaView, TouchableOpacity} from "react-native";
+import { View, Text, StyleSheet, Button, TextInput, SafeAreaView, TouchableOpacity, Dimensions} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {Picker} from '@react-native-picker/picker';
 import Ionicons from "react-native-vector-icons/Ionicons";
 // import DatePicker from 'react-native-date-picker'
 
+const { width, height } = Dimensions.get("window");
 
 const ProposeScreen = () => {
   const [activity, setActivity] = useState('');
@@ -38,6 +39,8 @@ const ProposeScreen = () => {
     hidePicker();
   };
 
+  
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,6 +64,8 @@ const ProposeScreen = () => {
           value={date}
           onChangeText={setDate}
         />
+      </View>
+      <View style={styles.section}>
         <View style={styles.sectionTitle}>
           <Ionicons name="time" size={32} />
           <Text style={styles.sectionTitle}> Time</Text>
@@ -106,7 +111,15 @@ const ProposeScreen = () => {
           placeholder="Add Location"
         />
       </View>
-      <Button title="Done" onPress={handleDone} />
+      <View style={styles.bottomContainer}>
+          <TouchableOpacity
+            style={styles.DoneButton}
+            // onPress={() => navigation.navigate("FeedScreen")}
+            // on press pop up 
+            >
+            <Text style={styles.DoneButtonText}>Done</Text>
+          </TouchableOpacity>
+        </View>
     </SafeAreaView>
   );
 };
@@ -115,11 +128,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "pink",
   },
   section: {
-    marginBottom: 16, 
-    backgroundColor: "yellow",
+    marginBottom: 10, 
+    // backgroundColor: "yellow",
     padding: 10,
   },
   sectionTitle: {
@@ -138,6 +150,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
     padding: 8,
+  },
+  DoneButton: {
+    width: width * 0.4,
+    backgroundColor: "#4B0082",
+    borderRadius: 50,
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  DoneButtonText: {
+    color: "#FFF",
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Poppins-Regular",
   },
 });
 
