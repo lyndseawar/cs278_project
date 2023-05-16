@@ -28,14 +28,14 @@ function AppStackNavigator() {
     <AppStack.Navigator
       initialRouteName="Welcome"
       options={{
-        headerTintColor: "#FFF",
+        headerTintColor: "#4B0082",
         headerTitleStyle: { fontFamily: "Poppins-Regular" },
       }}
     >
       <AppStack.Screen
         name="Welcome"
         component={WelcomeScreen}
-        options={{ headerShown: false }}
+        options={{ headerTintColor: "#4B0082", headerShown: false }}
       />
       <AppStack.Screen
         name="Login"
@@ -55,17 +55,32 @@ function AppStackNavigator() {
       <AppStack.Screen
         name="Home"
         component={HomeScreen}
-        screenOptions={{ headerMode: "screen", headerShown: true }}
+        options={{
+          headerMode: "screen",
+          headerShown: true,
+          headerTintColor: "#4B0082",
+          headerTitleStyle: { fontFamily: "Poppins-Regular" },
+        }}
       />
       <AppStack.Screen
         name="Feed"
         component={FeedScreen}
-        screenOptions={{ headerMode: "screen", headerShown: true }}
+        options={{
+          headerMode: "screen",
+          headerShown: true,
+          headerTintColor: "#4B0082",
+          headerTitleStyle: { fontFamily: "Poppins-Regular" },
+        }}
       />
       <AppStack.Screen
         name="Profile"
         component={ProfileScreen}
-        screenOptions={{ headerMode: "screen", headerShown: true }}
+        options={{
+          headerMode: "screen",
+          headerShown: true,
+          headerTintColor: "#4B0082",
+          headerTitleStyle: { fontFamily: "Poppins-Regular" },
+        }}
       />
       <AppStack.Screen
         name="Propose"

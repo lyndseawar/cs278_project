@@ -1,46 +1,112 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
-import { Card, Button } from "react-native-elements";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import avatar from "../assets/avatars/avatar1.png";
 
 function PostCard({ item, isCommitted, handleCommit }) {
   return (
-    <Card containerStyle={styles.card}>
-      <Card.Title>
-        <View style={styles.titleContainer}>
-          <Image source={avatar} style={styles.avatar} />
-          <Text>{"John D."}</Text>
-        </View>
-      </Card.Title>
-      <Card.Divider />
+    <View style={styles.card}>
+      <View style={styles.headerContainer}>
+        <Image source={avatar} style={styles.avatar} />
+        <Text style={styles.name}>{"John D."}</Text>
+      </View>
       <Text style={styles.activity}>{item.activity}</Text>
-      <Text>
-        {item.signedUpAttendees} out of {item.totalAttendees} have signed up
-      </Text>
-      <Button
-        title={isCommitted ? "Committed" : "Want to commit"}
-        onPress={() => handleCommit(item.id)}
-        disabled={isCommitted}
-      />
-    </Card>
+      <Text style={styles.date}>Date goes here</Text>
+      <View style={styles.bottomContainer}>
+        <View style={styles.commitmentContainer}>
+          <Text style={styles.bold}>{item.signedUpAttendees}</Text>
+          <Text style={styles.text}>
+            {" "}
+            out of {item.totalAttendees} have signed up
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={isCommitted ? styles.committedButton : styles.button}
+          onPress={() => handleCommit(item.id)}
+          disabled={isCommitted}
+        >
+          <Text style={styles.buttonText}>
+            {isCommitted ? "Committed" : "Want to commit"}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    width: Dimensions.get("window").width - 50,
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
-  titleContainer: {
+  headerContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 15,
   },
   avatar: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     marginRight: 10,
   },
+  name: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 12,
+  },
   activity: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 18,
+    fontWeight: "bold",
     marginBottom: 10,
+  },
+  date: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  bottomContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  commitmentContainer: {
+    flexDirection: "row",
+  },
+  bold: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 12,
+    fontWeight: "bold",
+    marginRight: 5,
+  },
+  text: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 12,
+  },
+  button: {
+    backgroundColor: "#4B0082",
+    borderRadius: 20,
+    padding: 3,
+  },
+  committedButton: {
+    backgroundColor: "#999",
+    borderRadius: 20,
+    padding: 3,
+  },
+  buttonText: {
+    color: "#fff",
+    fontFamily: "Poppins-Regular",
+    fontSize: 14,
+    textAlign: "center",
   },
 });
 
