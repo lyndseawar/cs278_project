@@ -14,6 +14,7 @@ const ProposeScreen = ({ navigation }) => {
   const [time, setTime] = useState("");
   const [guests, setGuests] = useState("");
   const [location, setLocation] = useState("");
+  const [notes, setNotes] = useState("");
   const [isPickerVisible, setPickerVisible] = useState(false);
 
   // this is where we would store the data into supabase
@@ -113,6 +114,15 @@ const ProposeScreen = ({ navigation }) => {
             placeholder="Add Location"
           />
         </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Notes</Text>
+          <TextInput
+            style={styles.input}
+            value={notes}
+            onChangeText={setNotes}
+            placeholder="Optional Notes"
+          />
+        </View>
         <View style={styles.bottomContainer}>
           <TouchableOpacity
             style={styles.DoneButton}
@@ -155,14 +165,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
   },
   section: {
-    marginBottom: 10, 
     // backgroundColor: "yellow",
     padding: 10,
   },
   sectionTitle: {
     fontSize: 25,
     fontWeight: "bold",
-    marginBottom: 8,
+    marginBottom: 6,
     flexDirection: "row",
   },
   input: {
@@ -183,7 +192,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     height: 50,
     borderWidth: 1,
-    borderColor: "gray",
+    borderColr: "gray",
     padding: 8,
     borderRadius: 10,
     backgroundColor: "white",
@@ -204,7 +213,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 25,
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 5,
   },
   DoneButtonText: {
     color: "#FFF",
