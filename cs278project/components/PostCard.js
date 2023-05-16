@@ -24,7 +24,7 @@ function PostCard({ item, isCommitted, handleCommit }) {
           disabled={isCommitted}
         >
           <Text style={styles.buttonText}>
-            {isCommitted ? "committed" : "want to commit"}
+            {isCommitted ? "committed" : "i want to go"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
+    width: "90%",
   },
   headerContainer: {
     flexDirection: "row",

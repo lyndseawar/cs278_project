@@ -1,10 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
-import HomeScreen from "../screens/HomeScreen";
 import FeedScreen from "../screens/FeedScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
@@ -15,10 +15,29 @@ const Tab = createBottomTabNavigator();
 
 function AppTabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Matches" component={MatchesScreen} />
+    <Tab.Navigator
+      initialRouteName="Feed"
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === "Feed") {
+            iconName = focused ? "list" : "list-outline";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "person" : "person-outline";
+          } else if (route.name === "Propose") {
+            iconName = focused ? "create" : "create-outline";
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: "#4B0082",
+        inactiveTintColor: "gray",
+      }}
+    >
+      <Tab.Screen name="Feed" component={FeedScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Propose" component={ProposeScreen} />
     </Tab.Navigator>
   );
 }
@@ -52,42 +71,6 @@ function AppStackNavigator() {
         component={AppTabs}
         options={{ headerShown: false }}
       />
-      <AppStack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerMode: "screen",
-          headerShown: true,
-          headerTintColor: "#4B0082",
-          headerTitleStyle: { fontFamily: "Poppins-Regular" },
-        }}
-      />
-      <AppStack.Screen
-        name="Feed"
-        component={FeedScreen}
-        options={{
-          headerMode: "screen",
-          headerShown: true,
-          headerTintColor: "#4B0082",
-          headerTitleStyle: { fontFamily: "Poppins-Regular" },
-        }}
-      />
-      <AppStack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          headerMode: "screen",
-          headerShown: true,
-          headerTintColor: "#4B0082",
-          headerTitleStyle: { fontFamily: "Poppins-Regular" },
-        }}
-      />
-      <AppStack.Screen
-        name="Propose"
-        component={ProposeScreen}
-        screenOptions={{ headerMode: "screen", headerShown: true }}
-      />
-
     </AppStack.Navigator>
   );
 }

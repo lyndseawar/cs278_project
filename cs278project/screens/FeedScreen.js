@@ -5,7 +5,7 @@ import PostCard from "../components/PostCard";
 const feed = [
   {
     id: 1,
-    activity: "Basketball game",
+    activity: "women's basketball game @ Maples",
     totalAttendees: 5,
     signedUpAttendees: 3,
   },
