@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-//import { Picker } from "@react-native-picker/picker";
+// import {Picker} from '@react-native-picker/picker';
 import Ionicons from "react-native-vector-icons/Ionicons";
 // import DatePicker from 'react-native-date-picker'
 
