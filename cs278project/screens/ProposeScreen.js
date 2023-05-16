@@ -140,15 +140,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   input: {
-    height: 40,
+    height: 50,
     borderColor: "gray",
     borderWidth: 1,
     paddingHorizontal: 8,
+    fontSize: 20
   },
   pickerContainer: {
+    height: 50,
     borderWidth: 1,
     borderColor: "gray",
     padding: 8,
+  },
+  PickerText: {
+    fontSize: 30,
   },
   DoneButton: {
     width: width * 0.4,
