@@ -88,6 +88,8 @@ const styles = StyleSheet.create({
   tagline: {
     fontSize: 18,
     fontFamily: "Poppins-Regular",
+    padding: 5, 
+    textAlign: "center",
   },
   inputContainer: {
     flex: 1,
@@ -103,6 +105,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.5,
     borderBottomColor: "#4B0082",
     marginBottom: 30,
+    paddingBottom: 5,
     paddingLeft: 2,
     fontSize: 16,
     width: width * 0.8,
