@@ -109,6 +109,8 @@ const styles = StyleSheet.create({
   tagline: {
     fontSize: 18,
     fontFamily: "Poppins-Regular",
+    padding: 10,
+    textAlign: "center",
   },
   inputContainer: {
     flex: 1,
