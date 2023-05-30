@@ -2,25 +2,23 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./navigation/AppNavigator";
 import { useFonts } from "expo-font";
-import * as firebase from "firebase";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
-var firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-auth-domain",
-  projectId: "your-project-id",
-  storageBucket: "your-storage-bucket",
-  messagingSenderId: "your-messaging-sender-id",
-  appId: "your-app-id",
-  measurementId: "your-measurement-id",
+const firebaseConfig = {
+  apiKey: "AIzaSyAGT0dOTGffWg0mkiTRQB4AlZ_wpLLOlqw",
+  authDomain: "cs-278-project-331b5.firebaseapp.com",
+  projectId: "cs-278-project-331b5",
+  storageBucket: "cs-278-project-331b5.appspot.com",
+  messagingSenderId: "434972141984",
+  appId: "1:434972141984:web:3fdf00f49ce48955031cc5",
+  measurementId: "G-9XDEBJ0YF5"
 };
 
 // Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app(); // if already initialized, use that one
-}
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 export default function App() {
   const [fontsLoaded] = useFonts({
