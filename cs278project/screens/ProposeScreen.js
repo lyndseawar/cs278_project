@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, SafeAreaView, TouchableOpacity, Dimensions, ScrollView} from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {Picker} from '@react-native-picker/picker';
 // import DatePicker from 'react-native-date-picker'
