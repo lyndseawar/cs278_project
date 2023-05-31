@@ -84,6 +84,11 @@ function AuthStackNavigator() {
       <AppStack.Screen
         name="Signup"
         component={SignupScreen}
+        options={{ headerShown: true }}
+      />
+      <AppStack.Screen
+        name="App"
+        component={AppTabs}
         options={{ headerShown: false }}
       />
     </AppStack.Navigator>
