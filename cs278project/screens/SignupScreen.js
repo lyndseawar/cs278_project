@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
     fontSize: 16,
     width: width * 0.8,
+    paddingTop: 10,
   },
   loginButton: {
     width: width * 0.4,
