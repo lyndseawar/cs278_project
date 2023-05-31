@@ -9,20 +9,29 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@expo/webpack-config": "^0.17.0",
-    "@react-native-picker/picker": "2.4.2",
+    "@expo/webpack-config": "^18.0.1",
+    "@react-native-community/datetimepicker": "6.7.3",
+    "@react-native-picker/picker": "2.4.8",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "@rneui/base": "^4.0.0-rc.7",
     "@rneui/themed": "^4.0.0-rc.7",
     "@supabase/supabase-js": "^2.23.0",
+<<<<<<< Updated upstream
     "expo": "^46.0.21",
     "expo-status-bar": "~1.4.4",
     "firebase": "^9.22.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.9",
+=======
+    "expo": "^48.0.17",
+    "expo-status-bar": "~1.4.4",
+    "firebase": "^9.22.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+>>>>>>> Stashed changes
     "react-native-date-picker": "^4.2.13",
     "react-native-elements": "^3.4.3",
     "react-native-vector-icons": "^9.2.0",
@@ -30,7 +39,8 @@
     "react-navigation": "^4.4.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@rollup/plugin-json": "^6.0.0"
   },
   "private": true
 }
