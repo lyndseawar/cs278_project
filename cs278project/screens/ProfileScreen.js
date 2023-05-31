@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, TextInput, ScrollView, Image, StyleSheet, TouchableOpacity, Switch } from 'react-native';
 
 const ProfileScreen = ({ navigation }) => {
@@ -6,13 +6,23 @@ const ProfileScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
+  // TODO username should change dynamically with username in backend
+  const [username, setUsername] = useState("Nicole"); 
+
+  // useLayoutEffect to update the header title
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: username, // set the header title as userName
+    });
+  }, [navigation, username]);
+
+  const handleNameChange = (text) => {
+    setUsername(text);
+  }
+
   return (
     <ScrollView style={styles.ScrollView}>
-      <View style={styles.nameView}>
-        <TextInput style={styles.name}>Nicole</TextInput>
-        {/* this name should be in the header to replace the text: 'profile' */}
-      </View>
-      
+      <View style={styles.nameView} />
       <View>
         <Text style={styles.diningHallTitle}>Preferred Dining Hall</Text>
         <TextInput style={styles.diningHall}>Stern</TextInput>
