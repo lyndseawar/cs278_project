@@ -95,38 +95,38 @@ function AuthStackNavigator() {
   );
 }
 
-function AppStackNavigator() {
-  return (
-    <AppStack.Navigator
-      initialRouteName="Welcome"
-      options={{
-        headerTintColor: "#4B0082",
-        headerTitleStyle: { fontFamily: "Poppins-Regular" },
-      }}
-    >
-      <AppStack.Screen
-        name="Welcome"
-        component={WelcomeScreen}
-        options={{ headerShown: false }}
-      />
-      <AppStack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{ headerShown: false }}
-      />
-      <AppStack.Screen
-        name="Signup"
-        component={SignupScreen}
-        options={{ headerShown: false }}
-      />
-      <AppStack.Screen
-        name="App"
-        component={AppTabs}
-        options={{ headerShown: false }}
-      />
-    </AppStack.Navigator>
-  );
-}
+// function AppStackNavigator() {
+//   return (
+//     <AppStack.Navigator
+//       initialRouteName="Welcome"
+//       options={{
+//         headerTintColor: "#4B0082",
+//         headerTitleStyle: { fontFamily: "Poppins-Regular" },
+//       }}
+//     >
+//       <AppStack.Screen
+//         name="Welcome"
+//         component={WelcomeScreen}
+//         options={{ headerShown: false }}
+//       />
+//       <AppStack.Screen
+//         name="Login"
+//         component={LoginScreen}
+//         options={{ headerShown: false }}
+//       />
+//       <AppStack.Screen
+//         name="Signup"
+//         component={SignupScreen}
+//         options={{ headerShown: false }}
+//       />
+//       <AppStack.Screen
+//         name="App"
+//         component={AppTabs}
+//         options={{ headerShown: false }}
+//       />
+//     </AppStack.Navigator>
+//   );
+// }
 
 export default function RootNavigation() {
   const { user, isLoading } = useAuthentication();
