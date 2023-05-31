@@ -34,9 +34,30 @@ function AppTabs() {
         tabBarInactiveTintColor: "gray",
       })}
     >
-      <Tab.Screen name="Feed" component={FeedScreen} />
-      <Tab.Screen name="Propose" component={ProposeScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen 
+        name="Feed" 
+        component={FeedScreen} 
+        options={{
+          headerTintColor: "#4B0082",
+          headerTitleStyle: { fontFamily: "Poppins-Regular" },
+        }}
+      />
+      <Tab.Screen 
+        name="Propose" 
+        component={ProposeScreen} 
+        options={{
+          headerTintColor: "#4B0082",
+          headerTitleStyle: { fontFamily: "Poppins-Regular" },
+        }}
+      />
+      <Tab.Screen 
+        name="Profile" 
+        component={ProfileScreen} 
+        options={{
+            headerTintColor: "#4B0082",
+            headerTitleStyle: { fontFamily: "Poppins-Regular" },
+        }}
+      />
     </Tab.Navigator>
   );
 }
