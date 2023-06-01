@@ -1,4 +1,6 @@
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
+import firebase from "firebase/app";
+import "firebase/auth";
 //import { getAnalytics } from "firebase/analytics";
 //import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
 
@@ -13,11 +15,17 @@ const firebaseConfig = {
   measurementId: "G-9XDEBJ0YF5",
 };
 
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+export default firebase;
+
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
 
 //const analytics = getAnalytics(app);
 //const db = getFirestore(app);
 
 //export default { db };
-export default app;
+// export default app;

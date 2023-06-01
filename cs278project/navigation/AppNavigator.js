@@ -105,21 +105,6 @@ function AuthStackNavigator() {
 //       }}
 //     >
 //       <AppStack.Screen
-//         name="Welcome"
-//         component={WelcomeScreen}
-//         options={{ headerShown: false }}
-//       />
-//       <AppStack.Screen
-//         name="Login"
-//         component={LoginScreen}
-//         options={{ headerShown: false }}
-//       />
-//       <AppStack.Screen
-//         name="Signup"
-//         component={SignupScreen}
-//         options={{ headerShown: false }}
-//       />
-//       <AppStack.Screen
 //         name="App"
 //         component={AppTabs}
 //         options={{ headerShown: false }}
@@ -135,5 +120,5 @@ export default function RootNavigation() {
     return null; // show a loading indicator or splash screen
   }
 
-  return user ? <AppStackNavigator /> : <AuthStackNavigator />;
+  return user ? <AppTabs /> : <AuthStackNavigator />;
 }
