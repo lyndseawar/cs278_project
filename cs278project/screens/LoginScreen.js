@@ -7,20 +7,32 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../config';
+
 
 const { width, height } = Dimensions.get("window");
 
-const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export const LoginScreen = ({ navigation }) => {
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    // Add your logic for authenticating the user here
-    console.log("Email:", email);
-    console.log("Password:", password);
+  // const handleLogin = () => {
+  //   // Add your logic for authenticating the user here
+  //   console.log("Email:", email);
+  //   console.log("Password:", password);
 
-    // If authentication is successful, navigate to the profile screen
-    navigation.navigate("App");
+  //   // If authentication is successful, navigate to the profile screen
+  //   navigation.navigate("App");
+  // };
+
+  const [errorState, setErrorState] = useState('');
+
+  const handleLogin = values => {
+    const { email, password } = values;
+    signInWithEmailAndPassword(auth, email, password).catch(error =>
+      setErrorState(error.message)
+    );
   };
 
   return (
@@ -139,5 +151,3 @@ const styles = StyleSheet.create({
     paddingBottom: height / 4,
   },
 });
-
-export default LoginScreen;

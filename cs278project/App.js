@@ -1,8 +1,9 @@
 import React from "react";
-import firebase from "./config/firebase";
-import { NavigationContainer } from "@react-navigation/native";
-import AppNavigator from "./navigation/AppNavigator";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
+
+import { RootNavigator } from './navigation/RootNavigator';
+import { AuthenticatedUserProvider } from './providers';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,8 +22,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
+    <AuthenticatedUserProvider>
+      <SafeAreaProvider>
+        <RootNavigator />
+      </SafeAreaProvider>
+    </AuthenticatedUserProvider>
   );
 }

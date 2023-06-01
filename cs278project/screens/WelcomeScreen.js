@@ -9,9 +9,10 @@ import {
 } from "react-native";
 import welcomeImage from "../assets/boy-and-girl-giving-high-five-to-each-other.png";
 
+
 const { width, height } = Dimensions.get("window");
 
-const WelcomeScreen = ({ navigation }) => {
+export const WelcomeScreen = ({ navigation }) => {
   const handleSignUp = () => {
     navigation.navigate("Signup");
   };
@@ -100,5 +101,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-export default WelcomeScreen;

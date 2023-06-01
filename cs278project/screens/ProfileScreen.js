@@ -1,5 +1,9 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, TextInput, ScrollView, Image, StyleSheet, TouchableOpacity, Switch } from 'react-native';
+import { signOut } from 'firebase/auth';
+
+import { auth } from '../config';
+
 
 const ProfileScreen = ({ navigation }) => {
 
@@ -19,6 +23,10 @@ const ProfileScreen = ({ navigation }) => {
   const handleNameChange = (text) => {
     setUsername(text);
   }
+
+  const handleLogout = () => {
+    signOut(auth).catch(error => console.log('Error logging out: ', error));
+  };
 
   return (
     <ScrollView style={styles.ScrollView}>
@@ -78,6 +86,9 @@ const ProfileScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate("Welcome")}>
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
+        <View style={styles.container}>
+          <TouchableOpacity title='Sign Out' onPress={handleLogout} />
+        </View>
       </View>
 
       <View>

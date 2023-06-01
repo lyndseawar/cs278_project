@@ -11,7 +11,7 @@ import {
 
 const { width, height } = Dimensions.get("window");
 
-const SignupScreen = ({ navigation }) => {
+export const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -160,5 +160,3 @@ const styles = StyleSheet.create({
     paddingBottom: height / 8,
   },
 });
-
-export default SignupScreen;
