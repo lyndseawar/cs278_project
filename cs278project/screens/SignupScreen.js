@@ -8,6 +8,12 @@ import {
   Dimensions,
   Alert,
 } from "react-native";
+import { Formik } from "formik";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+
+import { FormErrorMessage } from "../components/FormErrorMessage";
+import { auth } from "../config";
+import { signupValidationSchema } from "../utils";
 
 const { width, height } = Dimensions.get("window");
 
@@ -16,75 +22,106 @@ export const SignupScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignup = () => {
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match");
-      return;
-    }
+  const [errorState, setErrorState] = useState('');
 
-    if (!validateEmail(email)) {
-      Alert.alert("Error", "Invalid email address");
-      return;
-    }
+  const handleSignup = async values => {
+    const { email, password } = values;
 
-    // Add your logic for creating a new account here
-    console.log("Email:", email);
-    console.log("Password:", password);
-
-    // If account creation is successful, navigate to the profile screen
-    navigation.navigate("Profile");
+    createUserWithEmailAndPassword(auth, email, password).catch(error =>
+      setErrorState(error.message)
+    );
   };
-
-  const validateEmail = (email) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-  }
 
   return (
     <View style={styles.container}>
+      {/* title container */}
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Platedate</Text>
         <Text style={styles.tagline}>
           the best way to set your next platonic date
         </Text>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Email</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setEmail}
-          value={email}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          placeholder="Enter your email"
-          placeholderTextColor="#aaa"
-        />
-        <Text style={styles.inputLabel}>Password</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry
-          placeholder="Enter your password"
-          placeholderTextColor="#aaa"
-        />
-        <Text style={styles.inputLabel}>Confirm Password</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setConfirmPassword}
-          value={confirmPassword}
-          secureTextEntry
-          placeholder="Confirm your password"
-          placeholderTextColor="#aaa"
-        />
-        <View style={styles.bottomContainer}>
-          <TouchableOpacity style={styles.loginButton} onPress={handleSignup}>
-            <Text style={styles.loginButtonText}>Signup</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Login")}>
-            <Text style={styles.backButtonText}>Already have an account? Login!</Text>
-          </TouchableOpacity>
-        </View>
+
+      {/* signup container */}
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+          confirmPassword: ''
+        }}
+        validationSchema={signupValidationSchema}
+        onSubmit={values => handleSignup(values)}
+      >
+        {({
+          values,
+          touched,
+          errors,
+          handleChange,
+          handleSubmit,
+          handleBlur
+        }) => (
+          <>
+            {/* Input fields */}
+            <TextInput
+              name='email'
+              leftIconName='email'
+              placeholder='Enter email'
+              autoCapitalize='none'
+              keyboardType='email-address'
+              textContentType='emailAddress'
+              autoFocus={true}
+              value={values.email}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+            />
+            <FormErrorMessage error={errors.email} visible={touched.email} />
+            <TextInput
+              name='password'
+              leftIconName='key-variant'
+              placeholder='Enter password'
+              autoCapitalize='none'
+              autoCorrect={false}
+              textContentType='newPassword'
+              value={values.password}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+            />
+            <FormErrorMessage
+              error={errors.password}
+              visible={touched.password}
+            />
+            <TextInput
+              name='confirmPassword'
+              leftIconName='key-variant'
+              placeholder='Enter password'
+              autoCapitalize='none'
+              autoCorrect={false}
+              textContentType='password'
+              value={values.confirmPassword}
+              onChangeText={handleChange('confirmPassword')}
+              onBlur={handleBlur('confirmPassword')}
+            />
+            <FormErrorMessage
+              error={errors.confirmPassword}
+              visible={touched.confirmPassword}
+            />
+            {/* Display Screen Error Mesages */}
+            {errorState !== '' ? (
+              <FormErrorMessage error={errorState} visible={true} />
+            ) : null}
+            {/* Signup button */}
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Signup</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </Formik>
+
+      {/* bottom container */}
+      <View style={styles.bottomContainer}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Login")}>
+          <Text style={styles.backButtonText}>Already have an account? Login!</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
