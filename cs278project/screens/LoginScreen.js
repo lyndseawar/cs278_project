@@ -5,27 +5,19 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
+  Dimensions
 } from "react-native";
+import { Formik } from 'formik';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+
+import { FormErrorMessage } from "../components/FormErrorMessage";
 import { auth } from '../config';
+import { loginValidationSchema } from '../utils';
 
 
 const { width, height } = Dimensions.get("window");
 
 export const LoginScreen = ({ navigation }) => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-
-  // const handleLogin = () => {
-  //   // Add your logic for authenticating the user here
-  //   console.log("Email:", email);
-  //   console.log("Password:", password);
-
-  //   // If authentication is successful, navigate to the profile screen
-  //   navigation.navigate("App");
-  // };
-
   const [errorState, setErrorState] = useState('');
 
   const handleLogin = values => {
@@ -37,45 +29,87 @@ export const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      
+      {/* top title container */}
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Platedate</Text>
         <Text style={styles.tagline}>
           the best way to set your next platonic date
         </Text>
       </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputLabel}>Email</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setEmail}
-          value={email}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          placeholder="Enter your email"
-          placeholderTextColor="#aaa"
-        />
-        <Text style={styles.inputLabel}>Password</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry
-          placeholder="Enter your password"
-          placeholderTextColor="#aaa"
-        />
-        <View style={styles.bottomContainer}>
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>Log In</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.navigate("Signup")}
-          >
-            <Text style={styles.backButtonText}>
-              Don't have an account? Sign Up!{" "}
-            </Text>
-          </TouchableOpacity>
-        </View>
+
+      {/* login container */}
+      <Formik
+        initialValues={{
+          email: '',
+          password: ''
+        }}
+        validationSchema={loginValidationSchema}
+        onSubmit={values => handleLogin(values)}
+      >
+        {({
+          values,
+          touched,
+          errors,
+          handleChange,
+          handleSubmit,
+          handleBlur
+        }) => (
+          <>
+            {/* Input fields */}
+            <TextInput
+              name='email'
+              leftIconName='email'
+              placeholder='Enter email'
+              autoCapitalize='none'
+              keyboardType='email-address'
+              textContentType='emailAddress'
+              autoFocus={true}
+              value={values.email}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+            />
+            <FormErrorMessage
+              error={errors.email}
+              visible={touched.email}
+            />
+            <TextInput
+              name='password'
+              leftIconName='key-variant'
+              placeholder='Enter password'
+              autoCapitalize='none'
+              autoCorrect={false}
+              textContentType='password'
+              value={values.password}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+            />
+            <FormErrorMessage
+              error={errors.password}
+              visible={touched.password}
+            />
+            {/* Display Screen Error Mesages */}
+            {errorState !== '' ? (
+              <FormErrorMessage error={errorState} visible={true} />
+            ) : null}
+            {/* Login button */}
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </Formik>
+
+      {/* bottom container */}
+      <View style={styles.bottomContainer}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate("Signup")}
+        >
+          <Text style={styles.backButtonText}>
+            Don't have an account? Sign Up!{" "}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

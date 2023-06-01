@@ -5,7 +5,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../config';
 
 
-const ProfileScreen = ({ navigation }) => {
+export const ProfileScreen = ({ navigation }) => {
 
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -83,13 +83,11 @@ const ProfileScreen = ({ navigation }) => {
         </View>
 
       <View>
-        <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate("Welcome")}>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
-        <View style={styles.container}>
-          <TouchableOpacity title='Sign Out' onPress={handleLogout} />
-        </View>
       </View>
+      
 
       <View>
         {/* this bullshit is here so we can scroll to the bottom better */}
@@ -199,5 +197,3 @@ const styles = StyleSheet.create({
   },
 });
 
-
-export default ProfileScreen;

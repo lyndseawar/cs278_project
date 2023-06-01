@@ -59,7 +59,7 @@ const feed = [
   },
 ];
 
-function FeedScreen() {
+export function FeedScreen() {
   const [committedActivities, setCommittedActivities] = useState([]);
 
   const handleCommit = (activityId) => {
@@ -89,5 +89,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-export default FeedScreen;

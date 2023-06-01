@@ -6,7 +6,7 @@ import {Picker} from '@react-native-picker/picker';
 
 const { width, height } = Dimensions.get("window");
 
-const ProposeScreen = ({ navigation }) => {
+export const ProposeScreen = ({ navigation }) => {
 
   const [activity, setActivity] = useState("");
   const [date, setDate] = useState("");
@@ -234,5 +234,3 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
 });
-
-export default ProposeScreen;
