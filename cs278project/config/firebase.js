@@ -1,9 +1,10 @@
 import { initializeApp } from 'firebase/app';
+import { getFirestore, initializeFirestore } from 'firebase/firestore'; // import Firestore functions
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//adding the SDKs for Firebase products you want to use
+// Your Firebase configuration object
 const firebaseConfig = {
   apiKey: "AIzaSyAGT0dOTGffWg0mkiTRQB4AlZ_wpLLOlqw",
   authDomain: "cs-278-project-331b5.firebaseapp.com",
@@ -14,17 +15,15 @@ const firebaseConfig = {
   measurementId: "G-9XDEBJ0YF5",
 };
 
-// initialize firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// initialize auth
+// Initialize Firebase Auth
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
 
-// export { auth };
+// Initialize Firestore
+const db = getFirestore(app); // Initialize Firestore using the app instance
 
-// initialize Firestore
-const firestore = initializeFirestore(app); // Initialize Firestore using the app instance
-
-export { auth, firestore }; // Export the auth and firestore objects for usage in other files
+export { auth, db }; // Export the auth and db (Firestore) objects for usage in other files
