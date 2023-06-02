@@ -1,15 +1,72 @@
-import React, { useState, useEffect } from "react";
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React, { useState } from "react";
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity} from "react-native";
+import PostCard from "../components/PostCard";
 import { sortByDate, filterByCategory } from '../utils';
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { db } from "../config/firebase.js";
-import { collection, getDocs } from "firebase/firestore";
+import { doc, getDocs, getDoc, collection, onSnapshot } from "firebase/firestore";
+
+const feed = [
+  {
+    id: 1,
+    activity: "women's basketball game @ Maples",
+    totalAttendees: 5,
+    signedUpAttendees: 3,
+    name: "John D.",
+    avatar: require("../assets/avatars/avatar1.png"),
+    date: "2023-05-22",
+  },
+  {
+    id: 2,
+    activity: "movie night",
+    totalAttendees: 8,
+    signedUpAttendees: 4,
+    name: "John D.",
+    avatar: require("../assets/avatars/avatar1.png"),
+    date: "2023-05-22",
+  },
+  {
+    id: 3,
+    activity: "study group @ EVGR",
+    totalAttendees: 3,
+    signedUpAttendees: 2,
+    name: "Conner F.",
+    avatar: require("../assets/avatars/avatar2.png"),
+    date: "2023-05-23",
+  },
+  {
+    id: 4,
+    activity: "dinner @ stern",
+    totalAttendees: 4,
+    signedUpAttendees: 1,
+    name: "Jane D.",
+    avatar: require("../assets/avatars/avatar3.png"),
+    date: "2023-05-24",
+  },
+  {
+    id: 5,
+    activity: "basketball game",
+    totalAttendees: 5,
+    signedUpAttendees: 3,
+    name: "Lauren G.",
+    avatar: require("../assets/avatars/avatar4.png"),
+    date: "2023-05-25",
+  },
+  {
+    id: 6,
+    activity: "drawing class",
+    totalAttendees: 5,
+    signedUpAttendees: 3,
+    name: "David H.",
+    avatar: require("../assets/avatars/avatar5.png"),
+    date: "2023-05-26",
+  },
+];
 
 export function FeedScreen() {
   const [committedActivities, setCommittedActivities] = useState([]);
   const [filter, setFilter] = useState(null);
   const [sort, setSort] = useState(null);
-  const [feedData, setFeedData] = useState([]);
 
   const handleCommit = (activityId) => {
     if (!committedActivities.includes(activityId)) {
@@ -25,23 +82,14 @@ export function FeedScreen() {
     setSort(option);
   };
 
-  const fetchFeedData = async () => {
-    const querySnapshot = await getDocs(collection(db, "feeddata"));
-    const data = querySnapshot.docs.map((doc) => doc.data());
-    setFeedData(data);
-  };
-
-  useEffect(() => {
-    fetchFeedData();
-  }, []);
-
-  let filteredFeed = feedData;
+  let filteredFeed = feed;
   if (filter) {
     filteredFeed = filterByCategory(filteredFeed, filter);
   }
   if (sort) {
     filteredFeed = sortByDate(filteredFeed, sort);
   }
+
 
   return (
     <View style={styles.container}>
@@ -65,14 +113,12 @@ export function FeedScreen() {
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {filteredFeed.map((item) => (
-          <View key={item.id} style={styles.postCard}>
-            {/* Render the content of each post card */}
-            <Text>{item.activity}</Text>
-            <Text>Total Attendees: {item.totalAttendees}</Text>
-            <Text>Signed Up Attendees: {item.signedUpAttendees}</Text>
-            <Text>Name: {item.name}</Text>
-            {/* Render more properties as needed */}
-          </View>
+          <PostCard
+            key={item.id}
+            item={item}
+            isCommitted={committedActivities.includes(item.id)}
+            handleCommit={handleCommit}
+          />
         ))}
       </ScrollView>
     </View>
@@ -119,11 +165,5 @@ const styles = StyleSheet.create({
     backgroundColor: "blue",
     borderRadius: 20,
     padding: 9,
-  },
-  postCard: {
-    marginVertical: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "gray",
-  },
+  }
 });
