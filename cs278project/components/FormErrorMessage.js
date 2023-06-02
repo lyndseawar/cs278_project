@@ -11,10 +11,10 @@ export const FormErrorMessage = ({ error, visible }) => {
 
 const styles = StyleSheet.create({
   errorText: {
-    marginLeft: 15,
+    textAlign: "center",
     color: "red",
-    fontSize: 16,
-    marginVertical: 8,
-    fontWeight: '600'
+    fontSize: 14,
+    // marginVertical: 4,
+    fontWeight: '600',
   }
 });

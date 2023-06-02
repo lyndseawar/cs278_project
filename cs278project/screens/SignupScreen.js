@@ -43,90 +43,110 @@ export const SignupScreen = ({ navigation }) => {
       </View>
 
       {/* signup container */}
-      <Formik
-        initialValues={{
-          email: '',
-          password: '',
-          confirmPassword: ''
-        }}
-        validationSchema={signupValidationSchema}
-        onSubmit={values => handleSignup(values)}
-      >
-        {({
-          values,
-          touched,
-          errors,
-          handleChange,
-          handleSubmit,
-          handleBlur
-        }) => (
-          <>
-            {/* Input fields */}
-            <TextInput
-              style={styles.input}
-              name='email'
-              leftIconName='email'
-              placeholder='Enter email'
-              autoCapitalize='none'
-              keyboardType='email-address'
-              textContentType='emailAddress'
-              autoFocus={true}
-              value={values.email}
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-            />
-            <FormErrorMessage error={errors.email} visible={touched.email} />
-            <TextInput
-              style={styles.input}
-              name='password'
-              leftIconName='key-variant'
-              placeholder='Enter password'
-              autoCapitalize='none'
-              autoCorrect={false}
-              textContentType='newPassword'
-              value={values.password}
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
-            />
-            <FormErrorMessage
-              error={errors.password}
-              visible={touched.password}
-            />
-            <TextInput
-              style={styles.input}
-              name='confirmPassword'
-              leftIconName='key-variant'
-              placeholder='Confirm password'
-              autoCapitalize='none'
-              autoCorrect={false}
-              textContentType='password'
-              value={values.confirmPassword}
-              onChangeText={handleChange('confirmPassword')}
-              onBlur={handleBlur('confirmPassword')}
-            />
-            <FormErrorMessage
-              error={errors.confirmPassword}
-              visible={touched.confirmPassword}
-            />
-            {/* Display Screen Error Mesages */}
-            {errorState !== '' ? (
-              <FormErrorMessage error={errorState} visible={true} />
-            ) : null}
-            {/* Signup button */}
-            <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-              <Text style={styles.loginButtonText}>Signup</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </Formik>
+      <View style={styles.inputContainer}>
 
-      {/* bottom container */}
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Login")}>
-          <Text style={styles.backButtonText}>Already have an account? Login!</Text>
-        </TouchableOpacity>
+        <Formik
+          initialValues={{
+            email: '',
+            password: '',
+            confirmPassword: ''
+          }}
+          validationSchema={signupValidationSchema}
+          onSubmit={values => handleSignup(values)}
+        >
+          {({
+            values,
+            touched,
+            errors,
+            handleChange,
+            handleSubmit,
+            handleBlur
+          }) => (
+            <>
+              {/* Input fields */}
+              <TextInput
+                style={styles.input}
+                name='firstname'
+                placeholder='First name'
+                autoCapitalize='none'
+                autoFocus={true}
+              />
+              <TextInput
+                style={styles.input}
+                name='lastname'
+                placeholder='Last name'
+                autoCapitalize='none'
+                autoFocus={true}
+              />
+              <TextInput
+                style={styles.input}
+                name='email'
+                leftIconName='email'
+                placeholder='Enter email'
+                autoCapitalize='none'
+                keyboardType='email-address'
+                textContentType='emailAddress'
+                autoFocus={true}
+                value={values.email}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+              />
+              <FormErrorMessage error={errors.email} visible={touched.email} />
+              <TextInput
+                style={styles.input}
+                name='password'
+                leftIconName='key-variant'
+                placeholder='Enter password'
+                autoCapitalize='none'
+                autoCorrect={false}
+                textContentType='newPassword'
+                value={values.password}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+              />
+              <FormErrorMessage
+                error={errors.password}
+                visible={touched.password}
+              />
+              <TextInput
+                style={styles.input}
+                name='confirmPassword'
+                leftIconName='key-variant'
+                placeholder='Confirm password'
+                autoCapitalize='none'
+                autoCorrect={false}
+                textContentType='password'
+                value={values.confirmPassword}
+                onChangeText={handleChange('confirmPassword')}
+                onBlur={handleBlur('confirmPassword')}
+              />
+              <FormErrorMessage
+                error={errors.confirmPassword}
+                visible={touched.confirmPassword}
+              />
+              {/* Display Screen Error Mesages */}
+              {errorState !== '' ? (
+                <FormErrorMessage error={errorState} visible={true} />
+              ) : null}
+              {/* Signup button */}
+              <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+                <Text style={styles.loginButtonText}>Signup</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </Formik>
+        {/* bottom container */}
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Login")}>
+            <Text style={styles.backButtonText}>Already have an account? Login!</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
+
+
     </View>
+
   );
 };
 
@@ -139,7 +159,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
   },
   titleContainer: {
-    height: height * 0.4,
+    height: height * 0.35,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -162,11 +182,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Poppins-Regular",
     marginBottom: 8,
+    padding: 10
   },
   input: {
     borderBottomWidth: 1.5,
     borderBottomColor: "#4B0082",
-    marginBottom: 30,
+    marginBottom: 20,
     paddingLeft: 2,
     fontSize: 16,
     width: width * 0.8,
@@ -195,7 +216,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   bottomContainer: {
-    flex: 1,
+    // flex: 1,
+    height: height * 0.2,
     justifyContent: "flex-start",
     alignItems: "center",
   },
