@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, View, Button} from "react-native";
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import PostCard from "../components/PostCard";
 import { sortByDate, filterByCategory } from '../utils';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const feed = [
   {
@@ -62,8 +63,8 @@ const feed = [
 
 export function FeedScreen() {
   const [committedActivities, setCommittedActivities] = useState([]);
-  const [filter, setFilter] = useState(null); // state to store the selected filter option
-  const [sort, setSort] = useState(null); // state to store the selected sort option
+  const [filter, setFilter] = useState(null);
+  const [sort, setSort] = useState(null);
 
   const handleCommit = (activityId) => {
     if (!committedActivities.includes(activityId)) {
@@ -79,7 +80,6 @@ export function FeedScreen() {
     setSort(option);
   };
 
-  // Apply sorting and filtering to the feed based on the selected options
   let filteredFeed = feed;
   if (filter) {
     filteredFeed = filterByCategory(filteredFeed, filter);
@@ -89,26 +89,36 @@ export function FeedScreen() {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
-      <View style={styles.filterContainer}>
-        <Button title="Filter Option 1" onPress={() => handleFilter('option1')} />
-        <Button title="Filter Option 2" onPress={() => handleFilter('option2')} />
-        {/* Add more filter buttons as needed */}
+    <View style={styles.container}>
+      <View style={styles.topBar}>
+        <View style={styles.filterContainer}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleFilter('option1')}>
+            <Text style={styles.buttonTextStyle}>Filter Option 1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleFilter('option2')}>
+            <Text style={styles.buttonTextStyle}>Filter Option 2</Text>
+          </TouchableOpacity>
+          {/* Add more filter buttons as needed */}
+        </View>
+        <View style={styles.sortContainer}>
+          <TouchableOpacity style={styles.sortStyle} onPress={() => handleSort('option1')}>
+            <Ionicons name="filter" color="white" size={32} />
+          </TouchableOpacity>
+
+          {/* Add more sort buttons as needed */}
+        </View>
       </View>
-      <View style={styles.sortContainer}>
-        <Button title="Sort Option 1" onPress={() => handleSort('option1')} />
-        <Button title="Sort Option 2" onPress={() => handleSort('option2')} />
-        {/* Add more sort buttons as needed */}
-      </View>
-      {filteredFeed.map((item) => (
-        <PostCard
-          key={item.id}
-          item={item}
-          isCommitted={committedActivities.includes(item.id)}
-          handleCommit={handleCommit}
-        />
-      ))}
-    </ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollView}>
+        {filteredFeed.map((item) => (
+          <PostCard
+            key={item.id}
+            item={item}
+            isCommitted={committedActivities.includes(item.id)}
+            handleCommit={handleCommit}
+          />
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
@@ -117,14 +127,40 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "pink"
+  },
+  topBar: {
+    flexDirection: "row",
   },
   filterContainer: {
     flexDirection: "row",
-    backgroundColor: "yellow"
-  }, 
+    alignItems: "center",
+    justifyContent: "center",
+  },
   sortContainer: {
-    flexDirection: "column",
-    backgroundColor: "red"
+    justifyContent: "flex-end",
+    backgroundColor: "pink",
+  },
+  buttonStyle: {
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderWidth: 1,
+    marginHorizontal: 5,
+    backgroundColor: "#4B0082",
+    borderRadius: 20,
+    padding: 9,
+  },
+  buttonTextStyle: {
+    color: "white",
+  },
+  sortStyle: {
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderWidth: 1,
+    marginHorizontal: 5,
+    backgroundColor: "blue",
+    borderRadius: 20,
+    padding: 9,
   }
 });
