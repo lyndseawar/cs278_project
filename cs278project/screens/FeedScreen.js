@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View, Button} from "react-native";
 import PostCard from "../components/PostCard";
+import { sortByDate, filterByCategory } from '../utils';
 
 const feed = [
   {
@@ -61,6 +62,8 @@ const feed = [
 
 export function FeedScreen() {
   const [committedActivities, setCommittedActivities] = useState([]);
+  const [filter, setFilter] = useState(null); // state to store the selected filter option
+  const [sort, setSort] = useState(null); // state to store the selected sort option
 
   const handleCommit = (activityId) => {
     if (!committedActivities.includes(activityId)) {
@@ -68,9 +71,36 @@ export function FeedScreen() {
     }
   };
 
+  const handleFilter = (category) => {
+    setFilter(category);
+  };
+
+  const handleSort = (option) => {
+    setSort(option);
+  };
+
+  // Apply sorting and filtering to the feed based on the selected options
+  let filteredFeed = feed;
+  if (filter) {
+    filteredFeed = filterByCategory(filteredFeed, filter);
+  }
+  if (sort) {
+    filteredFeed = sortByDate(filteredFeed, sort);
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
-      {feed.map((item) => (
+      <View style={styles.filterContainer}>
+        <Button title="Filter Option 1" onPress={() => handleFilter('option1')} />
+        <Button title="Filter Option 2" onPress={() => handleFilter('option2')} />
+        {/* Add more filter buttons as needed */}
+      </View>
+      <View style={styles.sortContainer}>
+        <Button title="Sort Option 1" onPress={() => handleSort('option1')} />
+        <Button title="Sort Option 2" onPress={() => handleSort('option2')} />
+        {/* Add more sort buttons as needed */}
+      </View>
+      {filteredFeed.map((item) => (
         <PostCard
           key={item.id}
           item={item}
@@ -87,5 +117,14 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "pink"
   },
+  filterContainer: {
+    flexDirection: "row",
+    backgroundColor: "yellow"
+  }, 
+  sortContainer: {
+    flexDirection: "column",
+    backgroundColor: "red"
+  }
 });
