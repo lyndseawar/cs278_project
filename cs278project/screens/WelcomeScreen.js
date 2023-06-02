@@ -60,24 +60,25 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   titleContainer: {
-    height: height * 0.3,
+    height: height * 0.25,
     justifyContent: "flex-end",
     alignItems: "center",
-    paddingTop: height * 0.1,
   },
   title: {
     fontSize: 48,
     fontFamily: "Poppins-Bold",
   },
   tagline: {
+    width: width * 0.9,
     fontSize: 18,
     fontFamily: "Poppins-Regular",
+    textAlign: "center",
   },
   bottomContainer: {
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    paddingBottom: height / 8,
+    paddingBottom: height / 9,
   },
   signUpButton: {
     width: width * 0.8,

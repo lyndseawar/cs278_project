@@ -22,7 +22,7 @@ export const AuthStack = () => {
       <Stack.Screen 
         name="Signup"
         component={SignupScreen}
-        options={{ headerShown: true }} />
+        options={{ headerShown: false }} />
       {/* <Stack.Screen name='ForgotPassword' component={ForgotPasswordScreen} /> */}
     </Stack.Navigator>
   );

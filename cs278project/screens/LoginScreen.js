@@ -58,6 +58,7 @@ export const LoginScreen = ({ navigation }) => {
           <>
             {/* Input fields */}
             <TextInput
+              style={styles.input}
               name='email'
               leftIconName='email'
               placeholder='Enter email'
@@ -74,6 +75,7 @@ export const LoginScreen = ({ navigation }) => {
               visible={touched.email}
             />
             <TextInput
+              style={styles.input}
               name='password'
               leftIconName='key-variant'
               placeholder='Enter password'
@@ -93,27 +95,29 @@ export const LoginScreen = ({ navigation }) => {
               <FormErrorMessage error={errorState} visible={true} />
             ) : null}
             {/* Login button */}
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Login</Text>
+            <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+              <Text style={styles.loginButtonText}>Login</Text>
             </TouchableOpacity>
+
+            {/* New code block */}
+            <View style={styles.bottomContainer}>
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate("Signup")}
+              >
+                <Text style={styles.backButtonText}>
+                  Don't have an account? Sign Up!{" "}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </>
         )}
       </Formik>
-
-      {/* bottom container */}
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.navigate("Signup")}
-        >
-          <Text style={styles.backButtonText}>
-            Don't have an account? Sign Up!{" "}
-          </Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -180,8 +184,32 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
     alignItems: "center",
-    paddingBottom: height / 4,
+    // paddingBottom: height / 5,
+  },
+  input: {
+    borderBottomWidth: 1.5,
+    borderBottomColor: "#4B0082",
+    marginBottom: 30,
+    paddingBottom: 5,
+    paddingLeft: 2,
+    fontSize: 16,
+    width: width * 0.8,
+  },
+  loginButton: {
+    width: width * 0.4,
+    backgroundColor: "#4B0082",
+    borderRadius: 50,
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  loginButtonText: {
+    color: "#FFF",
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Poppins-Regular",
   },
 });
