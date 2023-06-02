@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 function PostCard({ item }) {
   const [committed, setCommitted] = useState(false);
-  const { activity, name, avatar, date, totalAttendees, signedUpAttendees } =
+  const { activity, name, avatar, date, totalAttendees, totalAttendees } =
     item;
 
   const handleCommit = () => {
@@ -21,7 +21,7 @@ function PostCard({ item }) {
       <Text style={styles.date}>{date}</Text>
       <View style={styles.bottomContainer}>
         <View style={styles.commitmentContainer}>
-          <Text style={styles.bold}>{signedUpAttendees} have committed </Text>
+          <Text style={styles.bold}>{totalAttendees} have committed </Text>
           <Text styles={styles.text}>{totalAttendees} needed </Text>
         </View>
         <TouchableOpacity

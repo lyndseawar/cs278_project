@@ -69,7 +69,11 @@ export function FeedScreen() {
             {/* Render the content of each post card */}
             <Text>{item.activity}</Text>
             <Text>Total Attendees: {item.totalAttendees}</Text>
-            <Text>Signed Up Attendees: {item.signedUpAttendees}</Text>
+
+            {/* we need to make logic for how to account for sign ups and people who uncommit */}
+
+            {/* <Text>Signed Up Attendees: {item.totalAttendees}</Text> */}
+            {/* we need to figure out how to get the name to sync */}
             <Text>Name: {item.name}</Text>
             {/* Render more properties as needed */}
           </View>
