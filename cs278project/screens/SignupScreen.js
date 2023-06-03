@@ -9,27 +9,75 @@ import {
   Alert,
 } from "react-native";
 import { Formik } from "formik";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { FormErrorMessage } from "../components/FormErrorMessage";
 import { auth } from "../config";
 import { signupValidationSchema } from "../utils";
+import { setDoc, doc, getDoc } from "firebase/firestore";
+import { db } from "../config/firebase";
+
+const createUserDocument = async (user, additionalData) => {
+  if (!user) return;
+  //get a reference to the place in the database where a user profile might be
+
+  const userRef = doc(db, "users", user.uid);
+  //go and fetch a document from that location
+  const snapshot = await userRef.get();
+  //if there isn't any data there, create it
+  if (!snapshot.exists()) {
+    const { displayName, avatar, bio, dateOfBirth, joinDate } = additionalData;
+    try {
+      await setDoc(userRef, {
+        displayName,
+        email: user.email,
+        avatar,
+        bio,
+        dateOfBirth,
+        joinDate,
+        //any other data that we want to store
+      });
+    } catch (error) {
+      console.error("Error creating user document", error);
+    }
+  }
+  return getUserDocument(user.uid);
+};
+
+const getUserDocument = async (uid) => {
+  if (!uid) return null;
+  try {
+    const userDocument = await getDoc(doc(db, "users", uid));
+    return {
+      uid,
+      ...userDocument.data(),
+    };
+  } catch (error) {
+    console.error("Error fetching user", error);
+  }
+};
 
 const { width, height } = Dimensions.get("window");
 
 export const SignupScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const [errorState, setErrorState] = useState('');
-
-  const handleSignup = async values => {
-    const { email, password } = values;
-
-    createUserWithEmailAndPassword(auth, email, password).catch(error =>
-      setErrorState(error.message)
-    );
+  const [errorState, setErrorState] = useState("");
+  const handleSignup = async (values) => {
+    const { email, password, firstName, lastName } = values;
+    const displayName = `${firstName} ${lastName}`;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      await createUserDocument(user, {
+        displayName,
+        joinDate: new Date().toDateString(),
+      });
+    } catch (error) {
+      setErrorState(error.message);
+    }
   };
 
   return (
@@ -41,18 +89,19 @@ export const SignupScreen = ({ navigation }) => {
           the best way to set your next platonic date
         </Text>
       </View>
-
       {/* signup container */}
       <View style={styles.inputContainer}>
-
         <Formik
           initialValues={{
-            email: '',
-            password: '',
-            confirmPassword: ''
+            firstName: "",
+            lastName: "",
+            joinDate: new Date(), //current data
+            email: "",
+            password: "",
+            confirmPassword: "",
           }}
           validationSchema={signupValidationSchema}
-          onSubmit={values => handleSignup(values)}
+          onSubmit={(values) => handleSignup(values)}
         >
           {({
             values,
@@ -60,49 +109,63 @@ export const SignupScreen = ({ navigation }) => {
             errors,
             handleChange,
             handleSubmit,
-            handleBlur
+            handleBlur,
           }) => (
             <>
               {/* Input fields */}
               <TextInput
                 style={styles.input}
-                name='firstname'
-                placeholder='First name'
-                autoCapitalize='none'
+                name="firstname"
+                placeholder="First Name"
+                autoCapitalize="none"
                 autoFocus={true}
+                onChangeText={handleChange("firstName")}
+                onBlur={handleBlur("firstName")}
+                value={values.firstName}
+              />
+              <FormErrorMessage
+                error={errors.firstName}
+                visible={touched.firstName}
               />
               <TextInput
                 style={styles.input}
-                name='lastname'
-                placeholder='Last name'
-                autoCapitalize='none'
+                name="lastname"
+                placeholder="Last Name"
+                autoCapitalize="none"
                 autoFocus={true}
+                onChangeText={handleChange("lastName")}
+                onBlur={handleBlur("lastName")}
+                value={values.lastName}
+              />
+              <FormErrorMessage
+                error={errors.lastName}
+                visible={touched.lastName}
               />
               <TextInput
                 style={styles.input}
-                name='email'
-                leftIconName='email'
-                placeholder='Enter email'
-                autoCapitalize='none'
-                keyboardType='email-address'
-                textContentType='emailAddress'
+                name="email"
+                leftIconName="email"
+                placeholder="Enter email"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                textContentType="emailAddress"
                 autoFocus={true}
                 value={values.email}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
+                onChangeText={handleChange("email")}
+                onBlur={handleBlur("email")}
               />
               <FormErrorMessage error={errors.email} visible={touched.email} />
               <TextInput
                 style={styles.input}
-                name='password'
-                leftIconName='key-variant'
-                placeholder='Enter password'
-                autoCapitalize='none'
+                name="password"
+                leftIconName="key-variant"
+                placeholder="Enter password"
+                autoCapitalize="none"
                 autoCorrect={false}
-                textContentType='newPassword'
+                textContentType="newPassword"
                 value={values.password}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
+                onChangeText={handleChange("password")}
+                onBlur={handleBlur("password")}
               />
               <FormErrorMessage
                 error={errors.password}
@@ -110,26 +173,29 @@ export const SignupScreen = ({ navigation }) => {
               />
               <TextInput
                 style={styles.input}
-                name='confirmPassword'
-                leftIconName='key-variant'
-                placeholder='Confirm password'
-                autoCapitalize='none'
+                name="confirmPassword"
+                leftIconName="key-variant"
+                placeholder="Confirm password"
+                autoCapitalize="none"
                 autoCorrect={false}
-                textContentType='password'
+                textContentType="password"
                 value={values.confirmPassword}
-                onChangeText={handleChange('confirmPassword')}
-                onBlur={handleBlur('confirmPassword')}
+                onChangeText={handleChange("confirmPassword")}
+                onBlur={handleBlur("confirmPassword")}
               />
               <FormErrorMessage
                 error={errors.confirmPassword}
                 visible={touched.confirmPassword}
               />
               {/* Display Screen Error Mesages */}
-              {errorState !== '' ? (
+              {errorState !== "" ? (
                 <FormErrorMessage error={errorState} visible={true} />
               ) : null}
               {/* Signup button */}
-              <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+              <TouchableOpacity
+                style={styles.loginButton}
+                onPress={handleSubmit}
+              >
                 <Text style={styles.loginButtonText}>Signup</Text>
               </TouchableOpacity>
             </>
@@ -137,19 +203,19 @@ export const SignupScreen = ({ navigation }) => {
         </Formik>
         {/* bottom container */}
         <View style={styles.bottomContainer}>
-          <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Login")}>
-            <Text style={styles.backButtonText}>Already have an account? Login!</Text>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.backButtonText}>
+              Already have an account? Login!
+            </Text>
           </TouchableOpacity>
         </View>
-
       </View>
-
-
     </View>
-
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -182,7 +248,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Poppins-Regular",
     marginBottom: 8,
-    padding: 10
+    padding: 10,
   },
   input: {
     borderBottomWidth: 1.5,
@@ -244,5 +310,5 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
     fontSize: 16,
     width: width * 0.8,
-  }
+  },
 });

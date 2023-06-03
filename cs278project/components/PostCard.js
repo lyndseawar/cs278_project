@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-function PostCard({ item }) {
+function PostCard({ item, handleCommit }) {
   const [committed, setCommitted] = useState(false);
-  const { activity, name, avatar, date, totalAttendees, totalAttendees } =
-    item;
+  const { activity, name, avatar, date, totalAttendees } = item;
 
-  const handleCommit = () => {
+  const toggleCommit = () => {
     setCommitted(!committed);
-    console.log("postId", item.id);
+    handleCommit(item.id);
   };
 
   return (
@@ -26,10 +25,10 @@ function PostCard({ item }) {
         </View>
         <TouchableOpacity
           style={committed ? styles.committedButton : styles.button}
-          onPress={handleCommit}
+          onPress={toggleCommit}
         >
           <Text style={styles.buttonText}>
-            {committed ? "committed" : "i want to go"}
+            {committed ? "going" : "i'm in!"}
           </Text>
         </TouchableOpacity>
       </View>

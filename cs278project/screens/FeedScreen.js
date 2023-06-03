@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { sortByDate, filterByCategory } from '../utils';
+import { sortByDate, filterByCategory } from "../utils";
 import { db } from "../config/firebase.js";
 import { collection, getDocs } from "firebase/firestore";
+import PostCard from "../components/PostCard";
 
 export function FeedScreen() {
   const [committedActivities, setCommittedActivities] = useState([]);
@@ -47,16 +54,25 @@ export function FeedScreen() {
     <View style={styles.container}>
       <View style={styles.topBar}>
         <View style={styles.filterContainer}>
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleFilter('option1')}>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => handleFilter("option1")}
+          >
             <Text style={styles.buttonTextStyle}>Filter Option 1</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => handleFilter('option2')}>
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() => handleFilter("option2")}
+          >
             <Text style={styles.buttonTextStyle}>Filter Option 2</Text>
           </TouchableOpacity>
           {/* Add more filter buttons as needed */}
         </View>
         <View style={styles.sortContainer}>
-          <TouchableOpacity style={styles.sortStyle} onPress={() => handleSort('option1')}>
+          <TouchableOpacity
+            style={styles.sortStyle}
+            onPress={() => handleSort("option1")}
+          >
             <Ionicons name="filter" color="white" size={32} />
           </TouchableOpacity>
 
@@ -65,18 +81,17 @@ export function FeedScreen() {
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {filteredFeed.map((item) => (
-          <View key={item.id} style={styles.postCard}>
-            {/* Render the content of each post card */}
-            <Text>{item.activity}</Text>
-            <Text>Total Attendees: {item.totalAttendees}</Text>
-
-            {/* we need to make logic for how to account for sign ups and people who uncommit */}
-
-            {/* <Text>Signed Up Attendees: {item.totalAttendees}</Text> */}
-            {/* we need to figure out how to get the name to sync */}
-            <Text>Name: {item.name}</Text>
-            {/* Render more properties as needed */}
-          </View>
+          /* <View key={item.id} style={styles.postCard}>
+            {/* Render the content of each post card */
+          /* <Text>{item.activity}</Text> */
+          /* <Text>Total Attendees: {item.totalAttendees}</Text> */
+          /* we need to make logic for how to account for sign ups and people who uncommit */
+          /* <Text>Signed Up Attendees: {item.totalAttendees}</Text> */
+          /* we need to figure out how to get the name to sync */
+          /* <Text>Name: {item.name}</Text> */
+          /* Render more properties as needed */
+          /* </View> */
+          <PostCard key={item.id} item={item} handleCommit={handleCommit} />
         ))}
       </ScrollView>
     </View>

@@ -18,7 +18,7 @@ export const ProposeScreen = ({ navigation }) => {
 
   const handleDone = async () => {
     try {
-      // Create a new document in the 'proposals' collection
+      // Create a new document in the 'feeddata' collection
       const docRef = await addDoc(collection(db, 'feeddata'), {
         activity,
         date,
