@@ -7,15 +7,18 @@ import {
   StyleSheet,
   Dimensions,
   Alert,
+  Image,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker"; //adding so users can upload images
 import { Formik } from "formik";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FormErrorMessage } from "../components/FormErrorMessage";
 import { auth } from "../config";
 import { signupValidationSchema } from "../utils";
 import { setDoc, doc, getDoc } from "firebase/firestore";
-import { db } from "../config/firebase";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { db, storage } from "../config/firebase";
+//adding storage from firebase
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const createUserDocument = async (user, additionalData) => {
   if (!user) return;
@@ -25,10 +28,11 @@ const createUserDocument = async (user, additionalData) => {
   const snapshot = await getDoc(userRef);
   //if there isn't any data there, create it
   if (!snapshot.exists()) {
-    const { displayName, joinDate } = additionalData;
+    const { displayName, profilePicUrl, joinDate } = additionalData;
     try {
       await setDoc(userRef, {
         displayName,
+        profilePicUrl,
         email: user.email,
         joinDate,
         //any other data that we want to store
@@ -55,13 +59,39 @@ const getUserDocument = async (uid) => {
   }
 };
 
+//adding upload image function
+const uploadImageToFirebase = async (imageUri) => {
+  const response = await fetch(imageUri);
+  const blob = await response.blob();
+  const imageName = Date.now();
+  const storageRef = ref(storage, `profilePics/${imageName}`);
+  await uploadBytes(storageRef, blob);
+  const downloadURL = await getDownloadURL(storageRef);
+  return downloadURL;
+};
+
 const { width, height } = Dimensions.get("window");
 
 export const SignupScreen = ({ navigation }) => {
+  const [image, setImage] = useState(null); //adding image state
+  const handleChoosePhoto = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.uri) {
+        setImage(response);
+      }
+    });
+  };
   const [errorState, setErrorState] = useState("");
   const handleSignup = async (values) => {
     const { email, password, firstName, lastName } = values;
     const displayName = `${firstName} ${lastName}`;
+    let profilePicUrl = null;
+    if (image && image.uri) {
+      profilePicUrl = await uploadImageToFirebase(image.uri);
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -71,6 +101,7 @@ export const SignupScreen = ({ navigation }) => {
       const user = userCredential.user;
       await createUserDocument(user, {
         displayName,
+        profilePicUrl,
         joinDate: new Date().toDateString(),
       });
       if (!userDoc) {
@@ -189,6 +220,18 @@ export const SignupScreen = ({ navigation }) => {
                 error={errors.confirmPassword}
                 visible={touched.confirmPassword}
               />
+              <TouchableOpacity
+                style={styles.imageButton}
+                onPress={handleChoosePhoto}
+              >
+                <Text style={styles.imageButtonText}>Choose Photo</Text>
+              </TouchableOpacity>
+              {image && (
+                <Image
+                  source={{ uri: image.uri }}
+                  style={{ width: 100, height: 100 }}
+                />
+              )}
               {/* Display Screen Error Mesages */}
               {errorState !== "" ? (
                 <FormErrorMessage error={errorState} visible={true} />
@@ -312,5 +355,20 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
     fontSize: 16,
     width: width * 0.8,
+  },
+  imageButton: {
+    width: width * 0.4,
+    backgroundColor: "#4B0082",
+    borderRadius: 50,
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  imageButtonText: {
+    color: "#FFF",
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "Poppins-Bold",
   },
 });

@@ -34,13 +34,19 @@ export function FeedScreen() {
 
   const fetchFeedData = async () => {
     const querySnapshot = await getDocs(collection(db, "feeddata"));
-    const data = querySnapshot.docs.map((doc) => doc.data());
+    const data = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() }; //add the document ID to the data
+    });
     setFeedData(data);
   };
 
   useEffect(() => {
     fetchFeedData();
   }, []);
+
+  useEffect(() => {
+    console.log(filteredFeed.map((item) => item.id));
+  }, [filteredFeed]);
 
   let filteredFeed = feedData;
   if (filter) {

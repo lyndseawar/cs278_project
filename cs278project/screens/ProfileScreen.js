@@ -31,6 +31,9 @@ export const ProfileScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.ScrollView}>
       <View style={styles.nameView} />
+      <Image
+        style={styles.userImage}
+      />
       <View>
         <Text style={styles.diningHallTitle}>Preferred Dining Hall</Text>
         <TextInput style={styles.diningHall}>Stern</TextInput>
@@ -104,6 +107,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  userImage: {
+    height: 150,
+    width: 150,
+    borderRadius: 75,
   },
   title: {
     fontSize: 24,
