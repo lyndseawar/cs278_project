@@ -10,35 +10,33 @@ import {
 } from "react-native";
 import { Formik } from "formik";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
 import { FormErrorMessage } from "../components/FormErrorMessage";
 import { auth } from "../config";
 import { signupValidationSchema } from "../utils";
 import { setDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const createUserDocument = async (user, additionalData) => {
   if (!user) return;
   //get a reference to the place in the database where a user profile might be
-
   const userRef = doc(db, "users", user.uid);
   //go and fetch a document from that location
-  const snapshot = await userRef.get();
+  const snapshot = await getDoc(userRef);
   //if there isn't any data there, create it
   if (!snapshot.exists()) {
-    const { displayName, avatar, bio, dateOfBirth, joinDate } = additionalData;
+    const { displayName, joinDate } = additionalData;
     try {
       await setDoc(userRef, {
         displayName,
         email: user.email,
-        avatar,
-        bio,
-        dateOfBirth,
         joinDate,
         //any other data that we want to store
       });
+      return getUserDocument(user.uid);
     } catch (error) {
       console.error("Error creating user document", error);
+      return null;
     }
   }
   return getUserDocument(user.uid);
@@ -75,6 +73,10 @@ export const SignupScreen = ({ navigation }) => {
         displayName,
         joinDate: new Date().toDateString(),
       });
+      if (!userDoc) {
+        Alert.alert("Error", "Something went wrong signing up");
+        setErrorState("Error creating user document");
+      }
     } catch (error) {
       setErrorState(error.message);
     }
@@ -115,7 +117,7 @@ export const SignupScreen = ({ navigation }) => {
               {/* Input fields */}
               <TextInput
                 style={styles.input}
-                name="firstname"
+                name="firstName"
                 placeholder="First Name"
                 autoCapitalize="none"
                 autoFocus={true}
@@ -129,7 +131,7 @@ export const SignupScreen = ({ navigation }) => {
               />
               <TextInput
                 style={styles.input}
-                name="lastname"
+                name="lastName"
                 placeholder="Last Name"
                 autoCapitalize="none"
                 autoFocus={true}
