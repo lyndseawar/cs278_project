@@ -112,6 +112,8 @@ const styles = StyleSheet.create({
   },
   topBar: {
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   filterContainer: {
     flexDirection: "row",
