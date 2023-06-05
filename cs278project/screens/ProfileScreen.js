@@ -30,25 +30,9 @@ export const ProfileScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.ScrollView}>
-      <View style={styles.nameView} />
-      <Image
-        style={styles.userImage}
-      />
-      <View>
-        <Text style={styles.diningHallTitle}>Preferred Dining Hall</Text>
-        <TextInput style={styles.diningHall}>Stern</TextInput>
-      </View>
-
-      <View>
-        <Text style={styles.header}>My Photos</Text>
-        <ScrollView horizontal>
-          {/* Replace these URLs with the URLs of your images */}
-          <Image source={require('./../assets/chicken.jpeg')} style={styles.image} />
-          <Image source={require('./../assets/tacos.jpeg')} style={styles.image} />
-          <Image source={require('./../assets/chicken.jpeg')} style={styles.image} />
-          {/* Add more images as needed */}
-        </ScrollView>
-        <Text style={styles.reorder}>Drag to reorder</Text>
+      <View> 
+        <Text style={styles.header}>Favorite Plate Activities</Text>
+        <TextInput style={styles.plateTime}>meals, sports, dance shows</TextInput>
       </View>
 
       <View>
@@ -65,11 +49,16 @@ export const ProfileScreen = ({ navigation }) => {
       </View>
 
       <View> 
-        <Text style={styles.header}>Preferred Plate Time</Text>
-        <TextInput style={styles.plateTime}>Lunch</TextInput>
+        <Text style={styles.header}>Upcoming Plates?</Text>
+        <TextInput style={styles.plateTime}>things this person has comitted to?</TextInput>
       </View>
 
-      <View style={styles.switchParent}>
+      <View> 
+        <Text style={styles.header}>My Plates</Text>
+        <TextInput style={styles.plateTime}>things this person has planned?</TextInput>
+      </View>
+
+      {/* <View style={styles.switchParent}>
           <Text style={styles.header}>Open Invites</Text>
           <View style={styles.switchContainer}>
             <Text style={styles.switchText}>I like to get to know people 1 on 1</Text>
@@ -82,8 +71,7 @@ export const ProfileScreen = ({ navigation }) => {
             />
             <Text style={styles.switchText}>The more people the merrier</Text>
           </View>
-          
-        </View>
+        </View> */}
 
       <View>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
