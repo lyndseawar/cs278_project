@@ -9,7 +9,7 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import { Formik } from "formik";
+import { useFormik } from "formik";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FormErrorMessage } from "../components/FormErrorMessage";
 import { auth } from "../config";
@@ -60,10 +60,29 @@ const getUserDocument = async (uid) => {
 
 const { width, height } = Dimensions.get("window");
 
-const [isFormValid, setIsFormValid] = useState(false);
-
 export const SignupScreen = ({ navigation }) => {
   const [errorState, setErrorState] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      // login data
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+
+      //profile data
+      thisYear: "",
+      showerThought: "",
+      nerdiestThing: "",
+
+      // extra data
+      joinDate: new Date(), //current data
+    },
+    validationSchema: signupValidationSchema,
+    onSubmit: (values) => handleSignup(values),
+  });
+
   const handleSignup = async (values) => {
     const { email, password, firstName, lastName, thisYear, showerThought, nerdiestThing } = values;
     const displayName = `${firstName} ${lastName}`;
@@ -74,7 +93,7 @@ export const SignupScreen = ({ navigation }) => {
         password
       );
       const user = userCredential.user;
-      await createUserDocument(user, {
+      const userDoc = await createUserDocument(user, {
         displayName,
         joinDate: new Date().toDateString(),
         thisYear,
@@ -101,192 +120,135 @@ export const SignupScreen = ({ navigation }) => {
       </View>
       {/* signup container */}
       <View style={styles.inputContainer}>
-        <Formik
-          initialValues={{
-            // login data
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
+        <ScrollView style={styles.scroll}>
+          {/* Input fields */}
+          <TextInput
+            style={styles.input}
+            name="firstName"
+            placeholder="First Name"
+            autoCapitalize="none"
+            autoFocus={true}
+            onChangeText={formik.handleChange("firstName")}
+            onBlur={formik.handleBlur("firstName")}
+            value={formik.values.firstName}
+          />
+          <FormErrorMessage
+            error={formik.errors.firstName}
+            visible={formik.touched.firstName}
+          />
+          <TextInput
+            style={styles.input}
+            name="lastName"
+            placeholder="Last Name"
+            autoCapitalize="none"
+            onChangeText={formik.handleChange("lastName")}
+            onBlur={formik.handleBlur("lastName")}
+            value={formik.values.lastName}
+          />
+          <FormErrorMessage
+            error={formik.errors.lastName}
+            visible={formik.touched.lastName}
+          />
 
-            //profile data
-            thisYear: "",
-            showerThought: "",
-            nerdiestThing: "",
+          <TextInput
+            style={styles.input}
+            name="email"
+            placeholder="Email"
+            autoCapitalize="none"
+            onChangeText={formik.handleChange("email")}
+            onBlur={formik.handleBlur("email")}
+            value={formik.values.email}
+          />
+          <FormErrorMessage
+            error={formik.errors.email}
+            visible={formik.touched.email}
+          />
 
-            // extra data
-            joinDate: new Date(), //current data
-          }}
-          validationSchema={signupValidationSchema}
-          onSubmit={(values) => handleSignup(values)}
-        >
-          {({
-            values,
-            touched,
-            errors,
-            handleChange,
-            handleSubmit,
-            handleBlur,
-          }) => (
-            <>
-              <ScrollView style={styles.scroll}>
-                {/* Input fields */}
-                <TextInput
-                  style={styles.input}
-                  name="firstName"
-                  placeholder="First Name"
-                  autoCapitalize="none"
-                  autoFocus={true}
-                  onChangeText={handleChange("firstName")}
-                  onBlur={handleBlur("firstName")}
-                  value={values.firstName}
-                />
-                <FormErrorMessage
-                  error={errors.firstName}
-                  visible={touched.firstName}
-                />
-                <TextInput
-                  style={styles.input}
-                  name="lastName"
-                  placeholder="Last Name"
-                  autoCapitalize="none"
-                  autoFocus={true}
-                  onChangeText={handleChange("lastName")}
-                  onBlur={handleBlur("lastName")}
-                  value={values.lastName}
-                />
-                <FormErrorMessage
-                  error={errors.lastName}
-                  visible={touched.lastName}
-                />
-                <TextInput
-                  style={styles.input}
-                  name="email"
-                  leftIconName="email"
-                  placeholder="Enter email"
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  textContentType="emailAddress"
-                  autoFocus={true}
-                  value={values.email}
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                />
-                <FormErrorMessage error={errors.email} visible={touched.email} />
-                <TextInput
-                  style={styles.input}
-                  name="password"
-                  leftIconName="key-variant"
-                  placeholder="Enter password"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  textContentType="newPassword"
-                  value={values.password}
-                  onChangeText={handleChange("password")}
-                  onBlur={handleBlur("password")}
-                />
-                <FormErrorMessage
-                  error={errors.password}
-                  visible={touched.password}
-                />
-                <TextInput
-                  style={styles.input}
-                  name="confirmPassword"
-                  leftIconName="key-variant"
-                  placeholder="Confirm password"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  textContentType="password"
-                  value={values.confirmPassword}
-                  onChangeText={handleChange("confirmPassword")}
-                  onBlur={handleBlur("confirmPassword")}
-                />
-                <FormErrorMessage
-                  error={errors.confirmPassword}
-                  visible={touched.confirmPassword}
-                />
+          <TextInput
+            style={styles.input}
+            name="password"
+            placeholder="Password"
+            secureTextEntry={true}
+            onChangeText={formik.handleChange("password")}
+            onBlur={formik.handleBlur("password")}
+            value={formik.values.password}
+          />
+          <FormErrorMessage
+            error={formik.errors.password}
+            visible={formik.touched.password}
+          />
 
-                {/* Profile Data */}
-                <TextInput
-                  style={styles.input}
-                  name="thisYear"
-                  placeholder="This year I want to..."
-                  autoCapitalize="none"
-                  autoFocus={true}
-                  onChangeText={handleChange("thisYear")}
-                  onBlur={handleBlur("thisYear")}
-                  value={values.thisYear}
-                />
-                <FormErrorMessage
-                  error={errors.thisYear}
-                  visible={touched.thisYear}
-                />
-                <TextInput
-                  style={styles.input}
-                  name="showerThought"
-                  placeholder="A shower thought I've had..."
-                  autoCapitalize="none"
-                  autoFocus={true}
-                  onChangeText={handleChange("showerThought")}
-                  onBlur={handleBlur("showerThought")}
-                  value={values.showerThought}
-                />
-                <FormErrorMessage
-                  error={errors.showerThought}
-                  visible={touched.showerThought}
-                />
-                <TextInput
-                  style={styles.input}
-                  name="nerdiestThing"
-                  placeholder="The nerdiest thing about me..."
-                  autoCapitalize="none"
-                  autoFocus={true}
-                  onChangeText={handleChange("nerdiestThing")}
-                  onBlur={handleBlur("nerdiestThing")}
-                  value={values.nerdiestThing}
-                />
-                <FormErrorMessage
-                  error={errors.nerdiestThing}
-                  visible={touched.nerdiestThing}
-                />
-                
-                {/* Display Screen Error Mesages */}
-                {errorState !== "" ? (
-                  <FormErrorMessage error={errorState} visible={true} />
-                ) : null}
-              </ScrollView>
+          <TextInput
+            style={styles.input}
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            secureTextEntry={true}
+            onChangeText={formik.handleChange("confirmPassword")}
+            onBlur={formik.handleBlur("confirmPassword")}
+            value={formik.values.confirmPassword}
+          />
+          <FormErrorMessage
+            error={formik.errors.confirmPassword}
+            visible={formik.touched.confirmPassword}
+          />
 
-              {/* Signup button
-              <TouchableOpacity
-                style={styles.loginButton}
-                onPress={handleSubmit}
-              >
-                <Text style={styles.loginButtonText}>Signup</Text>
-              </TouchableOpacity> */}
-              {/* bottom container */}
-            <View style={styles.bottomContainer}>
-              {/* Signup button */}
-              <TouchableOpacity
-                style={styles.loginButton}  // Updated style for signup button
-                onPress={handleSubmit}
-              >
-                <Text style={styles.loginButtonText}>Signup</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.navigate("Login")}
-              >
-                <Text style={styles.backButtonText}>
-                  Already have an account? Login!
-                </Text>
-              </TouchableOpacity>
-            </View>
-            </>
+          <TextInput
+            style={styles.input}
+            name="thisYear"
+            placeholder="This year I want to ... "
+            autoCapitalize="none"
+            onChangeText={formik.handleChange("thisYear")}
+            onBlur={formik.handleBlur("thisYear")}
+            value={formik.values.thisYear}
+          />
+          <FormErrorMessage
+            error={formik.errors.thisYear}
+            visible={formik.touched.thisYear}
+          />
+
+          <TextInput
+            style={styles.input}
+            name="showerThought"
+            placeholder="A shower though I recently had ..."
+            autoCapitalize="none"
+            onChangeText={formik.handleChange("showerThought")}
+            onBlur={formik.handleBlur("showerThought")}
+            value={formik.values.showerThought}
+          />
+          <FormErrorMessage
+            error={formik.errors.showerThought}
+            visible={formik.touched.showerThought}
+          />
+
+          <TextInput
+            style={styles.input}
+            name="nerdiestThing"
+            placeholder="The nerdiest thing about me is that ..."
+            autoCapitalize="none"
+            onChangeText={formik.handleChange("nerdiestThing")}
+            onBlur={formik.handleBlur("nerdiestThing")}
+            value={formik.values.nerdiestThing}
+          />
+          <FormErrorMessage
+            error={formik.errors.nerdiestThing}
+            visible={formik.touched.nerdiestThing}
+          />
+
+          {/* Display Screen Error Messages */}
+          {errorState !== "" && (
+            <FormErrorMessage error={errorState} visible={true} />
           )}
-        </Formik>
+        </ScrollView>
 
-        {/* bottom container
+        {/* Signup button */}
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={formik.handleSubmit}
+        >
+          <Text style={styles.loginButtonText}>Signup</Text>
+        </TouchableOpacity>
+
+        {/* bottom container */}
         <View style={styles.bottomContainer}>
           <TouchableOpacity
             style={styles.backButton}
@@ -296,7 +258,7 @@ export const SignupScreen = ({ navigation }) => {
               Already have an account? Login!
             </Text>
           </TouchableOpacity>
-        </View> */}
+        </View>
       </View>
     </View>
   );
@@ -420,3 +382,5 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Bold",
   },
 });
+
+export default SignupScreen;
