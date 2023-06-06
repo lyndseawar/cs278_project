@@ -21,7 +21,7 @@ export const ProposeScreen = ({ navigation }) => {
   const [activity, setActivity] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [totalAttendees, setTotalAttendees] = useState("");
+  const [totalAttendeesNeeded, setTotalAttendeesNeeded] = useState("");
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
   const [isPickerVisible, setPickerVisible] = useState(false);
@@ -41,7 +41,7 @@ export const ProposeScreen = ({ navigation }) => {
         activity,
         date,
         time,
-        totalAttendees,
+        totalAttendeesNeeded,
         location,
         notes,
       });
@@ -52,7 +52,7 @@ export const ProposeScreen = ({ navigation }) => {
       setActivity("");
       setDate("");
       setTime("");
-      setTotalAttendees("");
+      setTotalAttendeesNeeded("");
       setLocation("");
       setNotes("");
 
@@ -75,7 +75,7 @@ export const ProposeScreen = ({ navigation }) => {
   };
 
   const handlePickerValueChange = (itemValue) => {
-    setTotalAttendees(itemValue);
+    setTotalAttendeesNeeded(itemValue);
     hidePicker();
   };
 
@@ -122,12 +122,12 @@ export const ProposeScreen = ({ navigation }) => {
               onPress={showPicker}
               style={styles.pickerContainer}
             >
-              <Text style={styles.pickerText}> {totalAttendees}</Text>
+              <Text style={styles.pickerText}> {setTotalAttendeesNeeded}</Text>
             </TouchableOpacity>
             {isPickerVisible && (
               <Picker
                 style={styles.picker}
-                selectedValue={totalAttendees}
+                selectedValue={totalAttendeesNeeded}
                 onValueChange={handlePickerValueChange}
               >
                 <Picker.Item label="1" value="1" />

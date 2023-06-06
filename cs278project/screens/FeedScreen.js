@@ -9,7 +9,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { sortByDate, filterByCategory } from "../utils";
 import { db } from "../config/firebase.js";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, onSnapshot, query } from "firebase/firestore";
 import PostCard from "../components/PostCard";
 
 export function FeedScreen() {
@@ -32,16 +32,22 @@ export function FeedScreen() {
     setSort(option);
   };
 
-  const fetchFeedData = async () => {
-    const querySnapshot = await getDocs(collection(db, "feeddata"));
-    const data = querySnapshot.docs.map((doc) => {
-      return { id: doc.id, ...doc.data() }; //add the document ID to the data
+  const fetchFeedData = () => {
+    const feedDataRef = collection(db, "feeddata");
+
+    const unsub = onSnapshot(feedDataRef, (querySnapshot) => {
+      const data = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setFeedData(data);
     });
-    setFeedData(data);
+    return () => unsub();
   };
 
   useEffect(() => {
-    fetchFeedData();
+    const unsub = fetchFeedData();
+    return () => unsub();
   }, []);
 
   useEffect(() => {
@@ -81,22 +87,11 @@ export function FeedScreen() {
           >
             <Ionicons name="filter" color="white" size={32} />
           </TouchableOpacity>
-
           {/* Add more sort buttons as needed */}
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {filteredFeed.map((item) => (
-          /* <View key={item.id} style={styles.postCard}>
-            {/* Render the content of each post card */
-          /* <Text>{item.activity}</Text> */
-          /* <Text>Total Attendees: {item.totalAttendees}</Text> */
-          /* we need to make logic for how to account for sign ups and people who uncommit */
-          /* <Text>Signed Up Attendees: {item.totalAttendees}</Text> */
-          /* we need to figure out how to get the name to sync */
-          /* <Text>Name: {item.name}</Text> */
-          /* Render more properties as needed */
-          /* </View> */
           <PostCard key={item.id} item={item} handleCommit={handleCommit} />
         ))}
       </ScrollView>
