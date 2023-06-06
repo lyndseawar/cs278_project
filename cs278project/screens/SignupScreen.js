@@ -128,7 +128,7 @@ export const SignupScreen = ({ navigation }) => {
             handleBlur,
           }) => (
             <>
-              <ScrollView>
+              <ScrollView style={styles.scroll}>
                 {/* Input fields */}
                 <TextInput
                   style={styles.input}
@@ -287,12 +287,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#FFF",
+    // backgroundColor: "#FFF",
+    backgroundColor: "red"
   },
   titleContainer: {
-    height: height * 0.35,
+    //height: height * 0.35,
+    paddingTop: 50,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "yellow"
   },
   title: {
     fontSize: 48,
@@ -303,6 +306,11 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
     padding: 10,
     textAlign: "center",
+  },
+  scroll: {
+    backgroundColor: "pink",
+    paddingTop: 20,
+    width: "100%"
   },
   inputContainer: {
     flex: 1,
@@ -351,6 +359,7 @@ const styles = StyleSheet.create({
     height: height * 0.2,
     justifyContent: "flex-start",
     alignItems: "center",
+    backgroundColor: "cyan"
   },
   loginButton: {
     width: width * 0.4,
