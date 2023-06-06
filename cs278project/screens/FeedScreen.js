@@ -54,6 +54,11 @@ export function FeedScreen() {
     console.log(filteredFeed.map((item) => item.id));
   }, [filteredFeed]);
 
+  //used for testing the feed data
+  // useEffect(() => {
+  //   console.log(feedData);
+  // }, [feedData]);
+
   let filteredFeed = feedData;
   if (filter) {
     filteredFeed = filterByCategory(filteredFeed, filter);

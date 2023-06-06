@@ -13,7 +13,7 @@ function PostCard({ item, handleCommit, userId }) {
   //userId  is now a prop passed down from the FeedScreen component
   const [committed, setCommitted] = useState(false);
   const [attendeesCount, setAttendeesCount] = useState(0); //add this state to store the number of attendees
-  const { activity, name, avatar, date, totalAttendees, totalAttendeesNeeded } =
+  const { activity, name, avatar, date, totalAttendeesNeeded } =
     item;
 
   useEffect(() => {
