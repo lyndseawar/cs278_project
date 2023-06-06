@@ -60,6 +60,8 @@ const getUserDocument = async (uid) => {
 
 const { width, height } = Dimensions.get("window");
 
+const [isFormValid, setIsFormValid] = useState(false);
+
 export const SignupScreen = ({ navigation }) => {
   const [errorState, setErrorState] = useState("");
   const handleSignup = async (values) => {
@@ -255,18 +257,36 @@ export const SignupScreen = ({ navigation }) => {
                 ) : null}
               </ScrollView>
 
-              {/* Signup button */}
+              {/* Signup button
               <TouchableOpacity
                 style={styles.loginButton}
                 onPress={handleSubmit}
               >
                 <Text style={styles.loginButtonText}>Signup</Text>
+              </TouchableOpacity> */}
+              {/* bottom container */}
+            <View style={styles.bottomContainer}>
+              {/* Signup button */}
+              <TouchableOpacity
+                style={styles.loginButton}  // Updated style for signup button
+                onPress={handleSubmit}
+              >
+                <Text style={styles.loginButtonText}>Signup</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate("Login")}
+              >
+                <Text style={styles.backButtonText}>
+                  Already have an account? Login!
+                </Text>
+              </TouchableOpacity>
+            </View>
             </>
           )}
         </Formik>
 
-        {/* bottom container */}
+        {/* bottom container
         <View style={styles.bottomContainer}>
           <TouchableOpacity
             style={styles.backButton}
@@ -276,7 +296,7 @@ export const SignupScreen = ({ navigation }) => {
               Already have an account? Login!
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -287,15 +307,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    // backgroundColor: "#FFF",
-    backgroundColor: "red"
+    backgroundColor: "#FFF",
   },
   titleContainer: {
-    //height: height * 0.35,
+    height: height * 0.25,
     paddingTop: 50,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "yellow"
+    // backgroundColor: "yellow"
   },
   title: {
     fontSize: 48,
@@ -308,7 +327,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   scroll: {
-    backgroundColor: "pink",
+    // backgroundColor: "pink",
     paddingTop: 20,
     width: "100%"
   },
@@ -357,9 +376,9 @@ const styles = StyleSheet.create({
   bottomContainer: {
     // flex: 1,
     height: height * 0.2,
-    justifyContent: "flex-start",
+    //justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "cyan"
+    // backgroundColor: "cyan"
   },
   loginButton: {
     width: width * 0.4,
