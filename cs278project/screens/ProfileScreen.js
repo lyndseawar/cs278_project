@@ -1,85 +1,89 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import {
   View,
   Text,
   TextInput,
   ScrollView,
-  Image,
   StyleSheet,
   TouchableOpacity,
-  Switch,
 } from "react-native";
-import { signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
+import { db } from "../config/firebase";
 import { auth } from "../config";
 
 export const ProfileScreen = ({ navigation }) => {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-
-  // TODO username should change dynamically with username in backend
-  const [username, setUsername] = useState("Nicole");
+  const [username, setUsername] = useState("");
+  const [thisYearPrompt, setThisYearPrompt] = useState("");
+  const [showerThoughtPrompt, setShowerThoughtPrompt] = useState("");
+  const [nerdiestThingPrompt, setNerdiestThingPrompt] = useState("");
 
   // useLayoutEffect to update the header title
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: username, // set the header title as userName
+      title: username ? username : "Loading...", // set the header title as userName or Loading... if it's not yet available
     });
   }, [navigation, username]);
-
-  const handleNameChange = (text) => {
-    setUsername(text);
-  };
 
   const handleLogout = () => {
     signOut(auth).catch((error) => console.log("Error logging out: ", error));
   };
 
+  useEffect(() => {
+    // This function fetches the user's profile data from Firestore
+    const fetchUserProfile = async (uid) => {
+      const userDocRef = doc(db, "users", uid);
+      const docSnap = await getDoc(userDocRef);
+      if (docSnap.exists()) {
+        setUsername(docSnap.data().displayName); // also update the username
+        setThisYearPrompt(docSnap.data().thisYear);
+        setShowerThoughtPrompt(docSnap.data().showerThought);
+        setNerdiestThingPrompt(docSnap.data().nerdiestThing);
+      } else {
+        console.log("No such document!");
+      }
+    }
+
+    // This will run when the component mounts and whenever auth state changes
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        fetchUserProfile(user.uid); // Fetch the profile when a user is logged in
+      }
+    });
+
+    // Cleanup function
+    return () => unsubscribe();
+  }, []);
+
   return (
     <ScrollView style={styles.ScrollView}>
       <View>
         <Text style={styles.header}>Favorite Plate Activities</Text>
-        <TextInput style={styles.plateTime}>
-          meals, sports, dance shows
-        </TextInput>
+        <Text style={styles.plateTime}>meals, sports, dance shows</Text>
       </View>
-
       <View>
         <Text style={styles.header}>My prompts</Text>
-
         <Text style={styles.prompt}>This year, I really want to...</Text>
-        <TextInput style={styles.promptAnswer}>try skydiving</TextInput>
-
+        <Text style={styles.promptAnswer}>{thisYearPrompt ? thisYearPrompt : "Loading..."}</Text>
         <Text style={styles.prompt}>A shower thought I recently had...</Text>
-        <TextInput style={styles.promptAnswer}>
-          why do we have shower thoughts
-        </TextInput>
-
+        <Text style={styles.promptAnswer}>{showerThoughtPrompt ? showerThoughtPrompt : "Loading..."}</Text>
         <Text style={styles.prompt}>The nerdiest thing about me is...</Text>
-        <TextInput style={styles.promptAnswer}>
-          how I prefer terminal in my VSCode window
-        </TextInput>
+        <Text style={styles.promptAnswer}>{nerdiestThingPrompt ? nerdiestThingPrompt : "Loading..."}</Text>
       </View>
-
       <View>
         <Text style={styles.header}>Upcoming Plates?</Text>
-        <TextInput style={styles.plateTime}>
-          things this person has comitted to?
-        </TextInput>
+        <Text style={styles.plateTime}>things this person has comitted to?</Text>
       </View>
-
       <View>
         <Text style={styles.header}>My Plates</Text>
-        <TextInput style={styles.plateTime}>
-          things this person has planned?
-        </TextInput>
+        <Text style={styles.plateTime}>things this person has planned?</Text>
       </View>
       <View>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
       </View>
-
       <View>
         {/* this bullshit is here so we can scroll to the bottom better */}
         <Text></Text>
