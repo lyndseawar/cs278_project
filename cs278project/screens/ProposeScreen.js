@@ -19,12 +19,14 @@ const { width, height } = Dimensions.get("window");
 
 export const ProposeScreen = ({ navigation }) => {
   const [activity, setActivity] = useState("");
+  const [activityCategory, setActivityCategory] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [totalAttendeesNeeded, setTotalAttendeesNeeded] = useState("");
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
-  const [isPickerVisible, setPickerVisible] = useState(false);
+  const [isActivityPickerVisible, setActivityPickerVisible] = useState(false);
+  const [isGuestsPickerVisible, setGuestsPickerVisible] = useState(false);  
 
   const handleDone = async () => {
     try {
@@ -39,6 +41,7 @@ export const ProposeScreen = ({ navigation }) => {
       const docRef = await addDoc(collection(db, "feeddata"), {
         userId,
         activity,
+        activityCategory,
         date,
         time,
         totalAttendeesNeeded,
@@ -50,6 +53,7 @@ export const ProposeScreen = ({ navigation }) => {
 
       // Reset the form values
       setActivity("");
+      setActivityCategory("");
       setDate("");
       setTime("");
       setTotalAttendeesNeeded("");
@@ -66,16 +70,29 @@ export const ProposeScreen = ({ navigation }) => {
     }
   };
 
-  const showPicker = () => {
-    setPickerVisible(true);
+  const showPicker = (pickerType) => {
+    if (pickerType === "activity") {
+      setActivityPickerVisible(true);
+    } else if (pickerType === "guests") {
+      setGuestsPickerVisible(true);
+    }
   };
-
-  const hidePicker = () => {
-    setPickerVisible(false);
+  
+  const hidePicker = (pickerType) => {
+    if (pickerType === "activity") {
+      setActivityPickerVisible(false);
+    } else if (pickerType === "guests") {
+      setGuestsPickerVisible(false);
+    }
   };
 
   const handlePickerValueChange = (itemValue) => {
     setTotalAttendeesNeeded(itemValue);
+    hidePicker();
+  };
+
+  const handleActivityPickerValueChange = (activityValue) => {
+    setActivityCategory(activityValue);
     hidePicker();
   };
 
@@ -91,6 +108,36 @@ export const ProposeScreen = ({ navigation }) => {
               onChangeText={setActivity}
               placeholder="Add Activity"
             />
+          </View>
+          <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Activity Category</Text>
+          <TouchableOpacity
+            onPress={() => showPicker("activity")}
+            style={styles.pickerContainer}
+          >
+            <Text style={styles.pickerText}>{activityCategory}</Text>
+          </TouchableOpacity>
+          {isActivityPickerVisible && (
+            <Picker
+              style={styles.picker}
+              selectedValue={activityCategory}
+              onValueChange={(value) => {
+                handleActivityPickerValueChange(value);
+                hidePicker("activity");
+              }}
+            >
+                <Picker.Item label="food" value="food" />
+                <Picker.Item label="sports" value="sports" />
+                <Picker.Item label="study date" value="study" />
+                <Picker.Item label="arts" value="arts" />
+                <Picker.Item label="adventure" value="adventure" />
+                <Picker.Item label="games" value="games" />
+                <Picker.Item label="volunteering" value="volunteering" />
+                <Picker.Item label="fitness" value="fitness" />
+                <Picker.Item label="book club" value="book" />
+                <Picker.Item label="other" value="other" />
+              </Picker>
+            )}
           </View>
           <View style={styles.section}>
             <View style={styles.sectionTitle}>
@@ -117,19 +164,22 @@ export const ProposeScreen = ({ navigation }) => {
             />
           </View>
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Guests Needed</Text>
-            <TouchableOpacity
-              onPress={showPicker}
-              style={styles.pickerContainer}
+          <Text style={styles.sectionTitle}>Guests Needed</Text>
+          <TouchableOpacity
+            onPress={() => showPicker("guests")}
+            style={styles.pickerContainer}
+          >
+            <Text style={styles.pickerText}>{totalAttendeesNeeded}</Text>
+          </TouchableOpacity>
+          {isGuestsPickerVisible && (
+            <Picker
+              style={styles.picker}
+              selectedValue={totalAttendeesNeeded}
+              onValueChange={(value) => {
+                handlePickerValueChange(value);
+                hidePicker("guests");
+              }}
             >
-              <Text style={styles.pickerText}> {setTotalAttendeesNeeded}</Text>
-            </TouchableOpacity>
-            {isPickerVisible && (
-              <Picker
-                style={styles.picker}
-                selectedValue={totalAttendeesNeeded}
-                onValueChange={handlePickerValueChange}
-              >
                 <Picker.Item label="1" value="1" />
                 <Picker.Item label="2" value="2" />
                 <Picker.Item label="3" value="3" />
@@ -236,9 +286,11 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.23,
+    justifyContent: 'center',
+    // alignItems: 'center',
   },
   pickerText: {
-    fontSize: 28,
+    fontSize: 20,
   },
   DoneButton: {
     width: width * 0.4,
