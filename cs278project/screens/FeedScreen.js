@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { sortByDate, filterByCategory } from "../utils";
-import { db } from "../config/firebase.js";
+import { db, auth } from "../config/firebase.js";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import PostCard from "../components/PostCard";
 
@@ -17,6 +17,7 @@ export function FeedScreen() {
   const [filter, setFilter] = useState(null);
   const [sort, setSort] = useState(null);
   const [feedData, setFeedData] = useState([]);
+  const userId = auth.currentUser?.uid || "unknown"; //get the current user's ID
 
   const handleCommit = (activityId) => {
     if (!committedActivities.includes(activityId)) {

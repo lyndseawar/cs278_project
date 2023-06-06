@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { doc, onSnapshot, updateDoc, deleteField } from "firebase/firestore";
+import { db, auth } from "../config/firebase.js";
 
 function PostCard({ item, handleCommit, userId }) {
   //userId  is now a prop passed down from the FeedScreen component
