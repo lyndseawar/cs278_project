@@ -122,7 +122,7 @@ export const ProposeScreen = ({ navigation }) => {
               onPress={showPicker}
               style={styles.pickerContainer}
             >
-              <Text style={styles.pickerText}> {setTotalAttendeesNeeded}</Text>
+              <Text style={styles.pickerText}> {totalAttendeesNeeded}</Text>
             </TouchableOpacity>
             {isPickerVisible && (
               <Picker
