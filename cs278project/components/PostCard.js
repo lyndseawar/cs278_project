@@ -1,13 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { doc, onSnapshot, updateDoc, deleteField } from "firebase/firestore";
+import { db, auth } from "../config/firebase.js";
 
-function PostCard({ item, handleCommit }) {
+function PostCard({ item, handleCommit, userId }) {
+  //userId  is now a prop passed down from the FeedScreen component
   const [committed, setCommitted] = useState(false);
-  const { activity, name, avatar, date, totalAttendees } = item;
+  const { activity, name, avatar, date, totalAttendees, totalAttendeesNeeded } =
+    item;
 
-  const toggleCommit = () => {
-    setCommitted(!committed);
-    handleCommit(item.id);
+  useEffect(() => {
+    const docRef = doc(db, "activityAttendees", item.id);
+    const unsubscribe = onSnapshot(docRef, (doc) => {
+      if (doc.exists() && doc.data()[userId]) {
+        setCommitted(true);
+      } else {
+        setCommitted(false);
+      }
+    });
+    return unsubscribe;
+  }, [item.id, userId]);
+
+  const toggleCommit = async () => {
+    try {
+      const docRef = doc(db, "activityAttendees", item.id);
+      if (!committed) {
+        await updateDoc(docRef, { [userId]: true });
+      } else {
+        await updateDoc(docRef, { [userId]: deleteField() });
+      }
+      handleCommit(item.id);
+    } catch (error) {
+      console.log("Error updating document: ", error);
+    }
   };
 
   return (
@@ -21,7 +46,7 @@ function PostCard({ item, handleCommit }) {
       <View style={styles.bottomContainer}>
         <View style={styles.commitmentContainer}>
           <Text style={styles.bold}>{totalAttendees} have committed </Text>
-          <Text styles={styles.text}>{totalAttendees} needed </Text>
+          <Text style={styles.text}>{totalAttendeesNeeded} needed </Text>
         </View>
         <TouchableOpacity
           style={committed ? styles.committedButton : styles.button}
