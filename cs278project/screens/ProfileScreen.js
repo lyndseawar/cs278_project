@@ -2,7 +2,6 @@ import React, { useState, useLayoutEffect, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
