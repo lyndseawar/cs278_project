@@ -1,50 +1,67 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, TextInput, SafeAreaView, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Picker } from '@react-native-picker/picker';
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TextInput,
+  SafeAreaView,
+  TouchableOpacity,
+  Dimensions,
+  ScrollView,
+} from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { Picker } from "@react-native-picker/picker";
+import { collection, addDoc } from "firebase/firestore";
+import { db, auth } from "../config/firebase";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 export const ProposeScreen = ({ navigation }) => {
-  const [activity, setActivity] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const [totalAttendees, setTotalAttendees] = useState('');
-  const [location, setLocation] = useState('');
-  const [notes, setNotes] = useState('');
+  const [activity, setActivity] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [totalAttendees, setTotalAttendees] = useState("");
+  const [location, setLocation] = useState("");
+  const [notes, setNotes] = useState("");
   const [isPickerVisible, setPickerVisible] = useState(false);
 
   const handleDone = async () => {
     try {
-      // Create a new document in the 'feeddata' collection
-      const docRef = await addDoc(collection(db, 'feeddata'), {
+      //get the current user's ID
+      const userId = auth.currentUser?.uid || "unknown";
+      //if there is no sign-ed in user, don't proceed
+      if (!userId) {
+        console.error("No user signed in");
+        return;
+      }
+      // Create a new document in the 'feeddate' collection
+      const docRef = await addDoc(collection(db, "feeddata"), {
+        userId,
         activity,
         date,
         time,
         totalAttendees,
-        // totalAttendees,
         location,
-        notes
+        notes,
       });
 
-      console.log('Document written with ID: ', docRef.id);
+      console.log("Document written with ID: ", docRef.id);
 
       // Reset the form values
-      setActivity('');
-      setDate('');
-      setTime('');
-      setTotalAttendees('');
-      setLocation('');
-      setNotes('');
+      setActivity("");
+      setDate("");
+      setTime("");
+      setTotalAttendees("");
+      setLocation("");
+      setNotes("");
 
       // Navigate to the desired screen
-      navigation.navigate('Feed');
+      navigation.navigate("Feed");
 
       // Display a success message or perform additional actions if needed
     } catch (error) {
-      console.error('Error adding document: ', error);
+      console.error("Error adding document: ", error);
       // Display an error message or handle the error gracefully
     }
   };
@@ -101,7 +118,10 @@ export const ProposeScreen = ({ navigation }) => {
           </View>
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Guests Needed</Text>
-            <TouchableOpacity onPress={showPicker} style={styles.pickerContainer}>
+            <TouchableOpacity
+              onPress={showPicker}
+              style={styles.pickerContainer}
+            >
               <Text style={styles.pickerText}> {totalAttendees}</Text>
             </TouchableOpacity>
             {isPickerVisible && (
@@ -171,8 +191,8 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
     borderRadius: 10,
-    backgroundColor: 'white',
-    shadowColor: '#000',
+    backgroundColor: "white",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -184,19 +204,19 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 6,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   input: {
     height: 50,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     paddingHorizontal: 8,
     fontSize: 20,
     borderRadius: 10,
-    backgroundColor: 'white',
-    shadowColor: '#000',
+    backgroundColor: "white",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -206,11 +226,11 @@ const styles = StyleSheet.create({
   pickerContainer: {
     height: 50,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     padding: 8,
     borderRadius: 10,
-    backgroundColor: 'white',
-    shadowColor: '#000',
+    backgroundColor: "white",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -222,19 +242,17 @@ const styles = StyleSheet.create({
   },
   DoneButton: {
     width: width * 0.4,
-    backgroundColor: '#4B0082',
+    backgroundColor: "#4B0082",
     borderRadius: 50,
     paddingVertical: 12,
     paddingHorizontal: 25,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 5,
   },
   DoneButtonText: {
-    color: '#FFF',
-    textAlign: 'center',
+    color: "#FFF",
+    textAlign: "center",
     fontSize: 18,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
 });
-
-
