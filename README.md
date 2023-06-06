@@ -1,4 +1,4 @@
 CS278 Final Project
 
-Technologies: Reacti Native, Expo, Firebase
+Technologies: React Native, Expo, Firebase
 
