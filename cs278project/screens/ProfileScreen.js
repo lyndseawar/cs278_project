@@ -1,17 +1,24 @@
-import React, { useState, useLayoutEffect } from 'react';
-import { View, Text, TextInput, ScrollView, Image, StyleSheet, TouchableOpacity, Switch } from 'react-native';
-import { signOut } from 'firebase/auth';
+import React, { useState, useLayoutEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Switch,
+} from "react-native";
+import { signOut } from "firebase/auth";
 
-import { auth } from '../config';
-
+import { auth } from "../config";
 
 export const ProfileScreen = ({ navigation }) => {
-
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   // TODO username should change dynamically with username in backend
-  const [username, setUsername] = useState("Nicole"); 
+  const [username, setUsername] = useState("Nicole");
 
   // useLayoutEffect to update the header title
   useLayoutEffect(() => {
@@ -22,17 +29,19 @@ export const ProfileScreen = ({ navigation }) => {
 
   const handleNameChange = (text) => {
     setUsername(text);
-  }
+  };
 
   const handleLogout = () => {
-    signOut(auth).catch(error => console.log('Error logging out: ', error));
+    signOut(auth).catch((error) => console.log("Error logging out: ", error));
   };
 
   return (
     <ScrollView style={styles.ScrollView}>
-      <View> 
+      <View>
         <Text style={styles.header}>Favorite Plate Activities</Text>
-        <TextInput style={styles.plateTime}>meals, sports, dance shows</TextInput>
+        <TextInput style={styles.plateTime}>
+          meals, sports, dance shows
+        </TextInput>
       </View>
 
       <View>
@@ -42,43 +51,34 @@ export const ProfileScreen = ({ navigation }) => {
         <TextInput style={styles.promptAnswer}>try skydiving</TextInput>
 
         <Text style={styles.prompt}>A shower thought I recently had...</Text>
-        <TextInput style={styles.promptAnswer}>why do we have shower thoughts</TextInput>
+        <TextInput style={styles.promptAnswer}>
+          why do we have shower thoughts
+        </TextInput>
 
         <Text style={styles.prompt}>The nerdiest thing about me is...</Text>
-        <TextInput style={styles.promptAnswer}>how I prefer terminal in my VSCode window</TextInput>
+        <TextInput style={styles.promptAnswer}>
+          how I prefer terminal in my VSCode window
+        </TextInput>
       </View>
 
-      <View> 
+      <View>
         <Text style={styles.header}>Upcoming Plates?</Text>
-        <TextInput style={styles.plateTime}>things this person has comitted to?</TextInput>
+        <TextInput style={styles.plateTime}>
+          things this person has comitted to?
+        </TextInput>
       </View>
 
-      <View> 
+      <View>
         <Text style={styles.header}>My Plates</Text>
-        <TextInput style={styles.plateTime}>things this person has planned?</TextInput>
+        <TextInput style={styles.plateTime}>
+          things this person has planned?
+        </TextInput>
       </View>
-
-      {/* <View style={styles.switchParent}>
-          <Text style={styles.header}>Open Invites</Text>
-          <View style={styles.switchContainer}>
-            <Text style={styles.switchText}>I like to get to know people 1 on 1</Text>
-            <Switch
-              trackColor={{ false: "#767577", true: "#4B0082" }}
-              thumbColor={"#f4f3f4"}
-              ios_backgroundColor="lightgray"
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
-            <Text style={styles.switchText}>The more people the merrier</Text>
-          </View>
-        </View> */}
-
       <View>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
       </View>
-      
 
       <View>
         {/* this bullshit is here so we can scroll to the bottom better */}
@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
   },
   nameView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   name: {
     fontFamily: "Poppins-Regular",
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   logoutButton: {
-
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
@@ -181,15 +180,14 @@ const styles = StyleSheet.create({
     color: "#4B0082",
   },
   switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   switchText: {
-    fontSize: 12, 
+    fontSize: 12,
     flexShrink: 1,
-    marginHorizontal: 10, 
+    marginHorizontal: 10,
     color: "#4B0082",
   },
 });
-

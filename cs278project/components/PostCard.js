@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { doc, setDoc, updateDoc, deleteDoc, arrayRemove, arrayUnion } from "firebase/firestore";
 
 function PostCard({ item, handleCommit }) {
+  //userId  is now a prop passed down from the FeedScreen
   const [committed, setCommitted] = useState(false);
-  const { activity, name, avatar, date, totalAttendees } = item;
+  const { activity, name, avatar, date, totalAttendees, totalAttendeesNeeded } = item;
 
   const toggleCommit = () => {
     setCommitted(!committed);
@@ -21,7 +23,7 @@ function PostCard({ item, handleCommit }) {
       <View style={styles.bottomContainer}>
         <View style={styles.commitmentContainer}>
           <Text style={styles.bold}>{totalAttendees} have committed </Text>
-          <Text styles={styles.text}>{totalAttendees} needed </Text>
+          <Text styles={styles.text}>{totalAttendeesNeeded} needed </Text>
         </View>
         <TouchableOpacity
           style={committed ? styles.committedButton : styles.button}

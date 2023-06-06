@@ -34,7 +34,6 @@ export function FeedScreen() {
 
   const fetchFeedData = () => {
     const feedDataRef = collection(db, "feeddata");
-
     const unsub = onSnapshot(feedDataRef, (querySnapshot) => {
       const data = querySnapshot.docs.map((doc) => ({
         id: doc.id,
