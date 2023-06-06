@@ -1,4 +1,4 @@
-#CS278 Final Project
+CS278 Final Project
 
 Technologies: Reacti Native, Expo, Firebase
 
