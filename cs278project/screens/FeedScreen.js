@@ -91,7 +91,12 @@ export function FeedScreen() {
       </View>
       <ScrollView contentContainerStyle={styles.scrollView}>
         {filteredFeed.map((item) => (
-          <PostCard key={item.id} item={item} handleCommit={handleCommit} />
+          <PostCard
+            key={item.id}
+            item={item}
+            handleCommit={handleCommit}
+            userId={userId}
+          />
         ))}
       </ScrollView>
     </View>
