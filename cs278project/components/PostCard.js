@@ -1,21 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { doc, onSnapshot, updateDoc, deleteField } from "firebase/firestore";
+import {
+  doc,
+  onSnapshot,
+  updateDoc,
+  deleteField,
+  setDoc,
+} from "firebase/firestore";
 import { db, auth } from "../config/firebase.js";
 
 function PostCard({ item, handleCommit, userId }) {
   //userId  is now a prop passed down from the FeedScreen component
   const [committed, setCommitted] = useState(false);
+  const [attendeesCount, setAttendeesCount] = useState(0); //add this state to store the number of attendees
   const { activity, name, avatar, date, totalAttendees, totalAttendeesNeeded } =
     item;
 
   useEffect(() => {
     const docRef = doc(db, "activityAttendees", item.id);
     const unsubscribe = onSnapshot(docRef, (doc) => {
-      if (doc.exists() && doc.data()[userId]) {
-        setCommitted(true);
-      } else {
-        setCommitted(false);
+      if (doc.exists()) {
+        //count the number of attendees (ignoring fields that are not user IDs)
+        const attendees = Object.keys(doc.data()).length;
+        setAttendeesCount(attendees); //update the sate with the number of attendees
+        //now you can use totalAttendees to determine if the current user is committed
+        if (doc.data()[userId]) {
+          setCommitted(true);
+        } else {
+          setCommitted(false);
+        }
       }
     });
     return unsubscribe;
@@ -25,7 +38,7 @@ function PostCard({ item, handleCommit, userId }) {
     try {
       const docRef = doc(db, "activityAttendees", item.id);
       if (!committed) {
-        await updateDoc(docRef, { [userId]: true });
+        await setDoc(docRef, { [userId]: true }, { merge: true });
       } else {
         await updateDoc(docRef, { [userId]: deleteField() });
       }
@@ -45,7 +58,7 @@ function PostCard({ item, handleCommit, userId }) {
       <Text style={styles.date}>{date}</Text>
       <View style={styles.bottomContainer}>
         <View style={styles.commitmentContainer}>
-          <Text style={styles.bold}>{totalAttendees} have committed </Text>
+          <Text style={styles.bold}>{attendeesCount} have committed </Text>
           <Text style={styles.text}>{totalAttendeesNeeded} needed </Text>
         </View>
         <TouchableOpacity
