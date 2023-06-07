@@ -39,15 +39,12 @@ export function FeedScreen() {
     const fetchAndSortData = async () => {
       const feedDataRef = collection(db, "feeddata");
       const activityAttendeesRef = collection(db, "activityAttendees");
-
       const feedSnapshot = await getDocs(feedDataRef);
       const activitySnapshot = await getDocs(activityAttendeesRef);
-
       const tempfeedData = feedSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-
       const attendeesData = activitySnapshot.docs.map((doc) => ({
         id: doc.id,
         totalAttendees: Object.keys(doc.data()).length,
@@ -55,16 +52,13 @@ export function FeedScreen() {
 
       let mergeData = tempfeedData.map((item) => {
         const attendeesItem = attendeesData.find(
-          (item) => item.id === feedItem.id
+          (attendeesItem) => attendeesItem.id === item.id
         );
         const totalAttendees = attendeesItem ? attendeesItem.totalAttendees : 0;
-        const totalAttendeesNeeded = parseInt(
-          feedItem.totalAttendeesNeeded,
-          10
-        );
+        const totalAttendeesNeeded = parseInt(item.totalAttendeesNeeded, 10);
         const ratio = totalAttendees / totalAttendeesNeeded;
         return {
-          ...feedItem,
+          ...item,
           totalAttendees,
           ratio,
         };
@@ -148,7 +142,7 @@ export function FeedScreen() {
             >
               <Text style={styles.buttonTextStyle}>Arts</Text>
             </TouchableOpacity>
-            
+
             <TouchableOpacity
               style={styles.buttonStyle}
               onPress={() => handleFilter("adventure")}
