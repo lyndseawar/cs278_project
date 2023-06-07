@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  Alert,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Picker } from "@react-native-picker/picker";
@@ -25,19 +26,32 @@ export const ProposeScreen = ({ navigation }) => {
   const [location, setLocation] = useState("");
   const [notes, setNotes] = useState("");
   const [isActivityPickerVisible, setActivityPickerVisible] = useState(false);
-  const [isGuestsPickerVisible, setGuestsPickerVisible] = useState(false);  
+  const [isGuestsPickerVisible, setGuestsPickerVisible] = useState(false);
 
   const handleDone = async () => {
+    if (
+      activity === "" ||
+      activityCategory === "" ||
+      date === "" ||
+      time === "" ||
+      totalAttendeesNeeded === "" ||
+      location === ""
+    ) {
+      Alert.alert("Error", "Please fill out all the fields");
+      return;
+    }
+  
     try {
-      //get the current user's ID
+      // Get the current user's ID
       const userId = auth.currentUser?.uid || "unknown";
-      //if there is no sign-ed in user, don't proceed
+      // If there is no signed-in user, don't proceed
       if (!userId) {
         console.error("No user signed in");
         return;
       }
-      // Create a new document in the 'feeddate' collection
-      const docRef = await addDoc(collection(db, "feeddata"), {
+  
+      // Create a new document in the 'feeddata' collection
+      const docData = {
         userId,
         activity,
         activityCategory,
@@ -45,11 +59,17 @@ export const ProposeScreen = ({ navigation }) => {
         time,
         totalAttendeesNeeded,
         location,
-        notes,
-      });
-
+      };
+  
+      // Add the 'notes' field only if it is not empty or whitespace
+      if (notes.trim() !== "") {
+        docData.notes = notes;
+      }
+  
+      const docRef = await addDoc(collection(db, "feeddata"), docData);
+  
       console.log("Document written with ID: ", docRef.id);
-
+  
       // Reset the form values
       setActivity("");
       setActivityCategory("");
@@ -58,16 +78,17 @@ export const ProposeScreen = ({ navigation }) => {
       setTotalAttendeesNeeded("");
       setLocation("");
       setNotes("");
-
+  
       // Navigate to the desired screen
       navigation.navigate("Feed");
-
+  
       // Display a success message or perform additional actions if needed
     } catch (error) {
       console.error("Error adding document: ", error);
       // Display an error message or handle the error gracefully
     }
   };
+  
 
   const showPicker = (pickerType) => {
     if (pickerType === "activity") {
@@ -76,7 +97,7 @@ export const ProposeScreen = ({ navigation }) => {
       setGuestsPickerVisible(true);
     }
   };
-  
+
   const hidePicker = (pickerType) => {
     if (pickerType === "activity") {
       setActivityPickerVisible(false);
@@ -109,22 +130,22 @@ export const ProposeScreen = ({ navigation }) => {
             />
           </View>
           <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Activity Category</Text>
-          <TouchableOpacity
-            onPress={() => showPicker("activity")}
-            style={styles.pickerContainer}
-          >
-            <Text style={styles.pickerText}>{activityCategory}</Text>
-          </TouchableOpacity>
-          {isActivityPickerVisible && (
-            <Picker
-              style={styles.picker}
-              selectedValue={activityCategory}
-              onValueChange={(value) => {
-                handleActivityPickerValueChange(value);
-                hidePicker("activity");
-              }}
+            <Text style={styles.sectionTitle}>Activity Category</Text>
+            <TouchableOpacity
+              onPress={() => showPicker("activity")}
+              style={styles.pickerContainer}
             >
+              <Text style={styles.pickerText}>{activityCategory}</Text>
+            </TouchableOpacity>
+            {isActivityPickerVisible && (
+              <Picker
+                style={styles.picker}
+                selectedValue={activityCategory}
+                onValueChange={(value) => {
+                  handleActivityPickerValueChange(value);
+                  hidePicker("activity");
+                }}
+              >
                 <Picker.Item label="food" value="food" />
                 <Picker.Item label="sports" value="sports" />
                 <Picker.Item label="study date" value="study date" />
@@ -163,22 +184,22 @@ export const ProposeScreen = ({ navigation }) => {
             />
           </View>
           <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Guests Needed</Text>
-          <TouchableOpacity
-            onPress={() => showPicker("guests")}
-            style={styles.pickerContainer}
-          >
-            <Text style={styles.pickerText}>{totalAttendeesNeeded}</Text>
-          </TouchableOpacity>
-          {isGuestsPickerVisible && (
-            <Picker
-              style={styles.picker}
-              selectedValue={totalAttendeesNeeded}
-              onValueChange={(value) => {
-                handlePickerValueChange(value);
-                hidePicker("guests");
-              }}
+            <Text style={styles.sectionTitle}>Guests Needed</Text>
+            <TouchableOpacity
+              onPress={() => showPicker("guests")}
+              style={styles.pickerContainer}
             >
+              <Text style={styles.pickerText}>{totalAttendeesNeeded}</Text>
+            </TouchableOpacity>
+            {isGuestsPickerVisible && (
+              <Picker
+                style={styles.picker}
+                selectedValue={totalAttendeesNeeded}
+                onValueChange={(value) => {
+                  handlePickerValueChange(value);
+                  hidePicker("guests");
+                }}
+              >
                 <Picker.Item label="1" value="1" />
                 <Picker.Item label="2" value="2" />
                 <Picker.Item label="3" value="3" />
@@ -216,112 +237,113 @@ export const ProposeScreen = ({ navigation }) => {
               onPress={() => {
                 handleDone();
               }}
+              disabled={!(activity && activityCategory && date && time && totalAttendeesNeeded && location && notes)}
             >
               <Text style={styles.DoneButtonText}>Done</Text>
             </TouchableOpacity>
           </View>
-          <View>
-            {/* These are just here to add spacing for the scrollview */}
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-            <Text></Text>
-          </View>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
-  );
+                    <View>
+                        {/* These are just here to add spacing for the scrollview */}
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                        <Text></Text>
+                    </View>
+                </ScrollView>
+            </View>
+        </SafeAreaView>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-  },
-  card: {
-    flex: 1,
-    margin: 10,
-    borderRadius: 10,
-    backgroundColor: "white",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    container: {
+        flex: 1,
+        padding: 16,
     },
-    shadowOpacity: 0.23,
-  },
-  section: {
-    padding: 10,
-  },
-  sectionTitle: {
-    fontSize: 25,
-    fontWeight: "bold",
-    marginBottom: 6,
-    flexDirection: "row",
-  },
-  input: {
-    height: 50,
-    borderColor: "gray",
-    borderWidth: 1,
-    paddingHorizontal: 8,
-    fontSize: 20,
-    borderRadius: 10,
-    backgroundColor: "white",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    card: {
+        flex: 1,
+        margin: 10,
+        borderRadius: 10,
+        backgroundColor: "white",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
     },
-    shadowOpacity: 0.23,
-  },
-  pickerContainer: {
-    height: 50,
-    borderWidth: 1,
-    borderColor: "gray",
-    padding: 8,
-    borderRadius: 10,
-    backgroundColor: "white",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    section: {
+        padding: 10,
     },
-    shadowOpacity: 0.23,
-    justifyContent: 'center',
-    // alignItems: 'center',
-  },
-  pickerText: {
-    fontSize: 20,
-  },
-  DoneButton: {
-    width: width * 0.4,
-    backgroundColor: "#4B0082",
-    borderRadius: 50,
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    alignSelf: "center",
-    marginTop: 5,
-  },
-  DoneButtonText: {
-    color: "#FFF",
-    textAlign: "center",
-    fontSize: 18,
-    fontFamily: "Poppins-Regular",
-  },
+    sectionTitle: {
+        fontSize: 25,
+        fontWeight: "bold",
+        marginBottom: 6,
+        flexDirection: "row",
+    },
+    input: {
+        height: 50,
+        borderColor: "gray",
+        borderWidth: 1,
+        paddingHorizontal: 8,
+        fontSize: 20,
+        borderRadius: 10,
+        backgroundColor: "white",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+    },
+    pickerContainer: {
+        height: 50,
+        borderWidth: 1,
+        borderColor: "gray",
+        padding: 8,
+        borderRadius: 10,
+        backgroundColor: "white",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        justifyContent: 'center',
+        // alignItems: 'center',
+    },
+    pickerText: {
+        fontSize: 20,
+    },
+    DoneButton: {
+        width: width * 0.4,
+        backgroundColor: "#4B0082",
+        borderRadius: 50,
+        paddingVertical: 12,
+        paddingHorizontal: 25,
+        alignSelf: "center",
+        marginTop: 5,
+    },
+    DoneButtonText: {
+        color: "#FFF",
+        textAlign: "center",
+        fontSize: 18,
+        fontFamily: "Poppins-Regular",
+    },
 });
