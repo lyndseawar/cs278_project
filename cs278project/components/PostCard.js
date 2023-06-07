@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     padding: 9,
   },
   committedButton: {
-    backgroundColor: "#999",
+    backgroundColor: "#AC8FC7",
     borderRadius: 20,
     padding: 9,
   },
