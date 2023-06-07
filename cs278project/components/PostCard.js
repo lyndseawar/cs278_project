@@ -25,9 +25,9 @@ function PostCard({ item, handleCommit, handleDelete, userId }) {
 
   //Deletes a post from the database
   const handleDeletePost = () => {
-    console.log("Delete button was pressed");
+    // console.log("Delete button was pressed");
     try {
-      console.log("This should be the postId being deleted", item.id);
+      // console.log("This should be the postId being deleted", item.id);
       handleDelete(item.id);
       const docRef = doc(db, "feeddata", item.id);
       deleteDoc(docRef);
