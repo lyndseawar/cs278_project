@@ -69,6 +69,7 @@ function PostCard({ item, handleCommit, handleDelete, userId }) {
       console.log("Error updating document: ", error);
     }
   };
+
   //Get the user's name and display firstname last initial
   const getDisplayName = (fullName) => {
     if (fullName) {
@@ -81,6 +82,7 @@ function PostCard({ item, handleCommit, handleDelete, userId }) {
     }
     return fullName;
   };
+
   //Fetch the user's name
   useEffect(() => {
     const fetchUserName = async () => {
@@ -97,6 +99,7 @@ function PostCard({ item, handleCommit, handleDelete, userId }) {
     };
     fetchUserName();
   }, [item.userId]);
+
   //Post Card View
   return (
     <View style={styles.card}>

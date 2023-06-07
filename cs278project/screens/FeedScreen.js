@@ -26,20 +26,24 @@ export function FeedScreen() {
   const [feedData, setFeedData] = useState([]);
   const userId = auth.currentUser?.uid || "unknown"; //get the current user's ID
   const [sortOrder, setSortOrder] = useState("asc"); //add this state to store the sort order
+
   //Function to handle the user's commitment
   const handleCommit = (activityId) => {
     if (!committedActivities.includes(activityId)) {
       setCommittedActivities([...committedActivities, activityId]);
     }
   };
+
   //Function to handle filtering of the feed by category
   const handleFilter = (category) => {
     setFilter(category);
   };
+
   //Function to handle sorting of the feed by post data
   const handleSort = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
+
   //Function to handle deleting a post
   const handleDelete = async (id) => {
     try {
@@ -54,6 +58,7 @@ export function FeedScreen() {
       console.log("Error deleting post from FeedScreen: ", error);
     }
   };
+
   //Fetching and sorting the feed data from Firestore
   useEffect(() => {
     const fetchAndSortData = async () => {
@@ -118,11 +123,13 @@ export function FeedScreen() {
     });
     return () => unsub();
   };
+
   //Calling the fetchFeedData function when the component mounts
   useEffect(() => {
     const unsub = fetchFeedData();
     return () => unsub();
   }, []); //Removing feedData as a dependency to prevent unnecessary re-renders
+
   //Filtering the feed data based on the filter state
   let filteredFeed = feedData;
   if (filter) {
@@ -133,6 +140,7 @@ export function FeedScreen() {
   if (sort) {
     filteredFeed = sortByDate(filteredFeed, sort);
   }
+
   //Rendering the the Feed component
   return (
     <View style={styles.container}>
@@ -221,7 +229,6 @@ export function FeedScreen() {
           {/* Add more sort buttons as needed */}
         </View>
       </View>
-
       <ScrollView contentContainerStyle={styles.scrollView}>
         {filteredFeed.map((item) => (
           <PostCard
