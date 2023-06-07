@@ -52,7 +52,9 @@ export function FeedScreen() {
 
   let filteredFeed = feedData;
   if (filter) {
-    filteredFeed = filteredFeed.filter((item) => item.activityCategory === filter);
+    filteredFeed = filteredFeed.filter(
+      (item) => item.activityCategory === filter
+    );
   }
   if (sort) {
     filteredFeed = sortByDate(filteredFeed, sort);
@@ -81,7 +83,7 @@ export function FeedScreen() {
             style={styles.sortStyle}
             onPress={() => handleSort("option1")}
           >
-            <Ionicons name="filter" color="white" size={32} />
+            <Ionicons name="filter-outline" color="white" size={25} />
           </TouchableOpacity>
           {/* Add more sort buttons as needed */}
         </View>
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
   },
   sortContainer: {
     justifyContent: "flex-end",
-    backgroundColor: "pink",
+    backgroundColor: "transparent",
   },
   buttonStyle: {
     borderRadius: 20,
@@ -134,14 +136,12 @@ const styles = StyleSheet.create({
     color: "white",
   },
   sortStyle: {
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
+    borderRadius: 55,
+    paddingHorizontal: 4,
+    paddingVertical: 3,
     borderWidth: 1,
-    marginHorizontal: 5,
-    backgroundColor: "blue",
-    borderRadius: 20,
-    padding: 9,
+    marginHorizontal: 12,
+    backgroundColor: "#4B0082",
   },
   postCard: {
     marginVertical: 10,
