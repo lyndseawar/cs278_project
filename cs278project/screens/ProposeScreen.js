@@ -224,6 +224,24 @@ export const ProposeScreen = ({ navigation }) => {
             {/* These are just here to add spacing for the scrollview */}
             <Text></Text>
             <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
+            <Text></Text>
           </View>
         </ScrollView>
       </View>

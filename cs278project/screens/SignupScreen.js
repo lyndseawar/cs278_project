@@ -209,7 +209,7 @@ export const SignupScreen = ({ navigation }) => {
           <TextInput
             style={styles.input}
             name="showerThought"
-            placeholder="A shower though I recently had ..."
+            placeholder="A shower thought I recently had ..."
             autoCapitalize="none"
             onChangeText={formik.handleChange("showerThought")}
             onBlur={formik.handleBlur("showerThought")}
@@ -233,6 +233,16 @@ export const SignupScreen = ({ navigation }) => {
             error={formik.errors.nerdiestThing}
             visible={formik.touched.nerdiestThing}
           />
+
+          {/* These add spacing so that the keybaord doesn't block the text box */}
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+          <Text></Text>
+
 
           {/* Display Screen Error Messages */}
           {errorState !== "" && (

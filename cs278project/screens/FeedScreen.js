@@ -9,7 +9,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { sortByDate, filterByCategory } from "../utils";
 import { db, auth } from "../config/firebase.js";
-import { collection, onSnapshot, query } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 import PostCard from "../components/PostCard";
 
 export function FeedScreen() {
@@ -50,18 +50,9 @@ export function FeedScreen() {
     return () => unsub();
   }, []);
 
-  useEffect(() => {
-    console.log(filteredFeed.map((item) => item.id));
-  }, [filteredFeed]);
-
-  //used for testing the feed data
-  // useEffect(() => {
-  //   console.log(feedData);
-  // }, [feedData]);
-
   let filteredFeed = feedData;
   if (filter) {
-    filteredFeed = filterByCategory(filteredFeed, filter);
+    filteredFeed = filteredFeed.filter((item) => item.activityCategory === filter);
   }
   if (sort) {
     filteredFeed = sortByDate(filteredFeed, sort);
@@ -73,15 +64,15 @@ export function FeedScreen() {
         <View style={styles.filterContainer}>
           <TouchableOpacity
             style={styles.buttonStyle}
-            onPress={() => handleFilter("option1")}
+            onPress={() => handleFilter("sports")}
           >
-            <Text style={styles.buttonTextStyle}>Filter Option 1</Text>
+            <Text style={styles.buttonTextStyle}>Sports Option</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttonStyle}
-            onPress={() => handleFilter("option2")}
+            onPress={() => handleFilter("food")}
           >
-            <Text style={styles.buttonTextStyle}>Filter Option 2</Text>
+            <Text style={styles.buttonTextStyle}>Food Option</Text>
           </TouchableOpacity>
           {/* Add more filter buttons as needed */}
         </View>
@@ -159,3 +150,5 @@ const styles = StyleSheet.create({
     borderColor: "gray",
   },
 });
+
+export default FeedScreen;
