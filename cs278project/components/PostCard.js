@@ -18,7 +18,7 @@ function PostCard({ item, handleCommit, userId }) {
     const [committed, setCommitted] = useState(false);
     const [attendeesCount, setAttendeesCount] = useState(0); //add this state to store the number of attendees
     const [userName, setUserName] = useState(""); //add this state to store the user's display name
-    const { activity, name, date, totalAttendeesNeeded, activityCategory } = item;
+    const { activity, name, date, totalAttendeesNeeded, activityCategory, handleDelete } = item;
 
     const isPostCreatedByUser = item.userId === userId; // Check if the post was made by the logged-in user
 
@@ -37,6 +37,7 @@ function PostCard({ item, handleCommit, userId }) {
           const docRef = doc(db, "feeddata", postId);
           await deleteDoc(docRef);
           setFeedData(feedData.filter((item) => item.id !== postId));
+          handleDelete(item.id);
         } catch (error) {
           console.log("Error deleting document: ", error);
         }
@@ -109,7 +110,7 @@ function PostCard({ item, handleCommit, userId }) {
             {isPostCreatedByUser && (
                 <TouchableOpacity
                     style={styles.deleteButton}
-                    onPress={() => handleDeletePost()}
+                    onPress={handleDeletePost}
                 >
                     <Ionicons name="trash-outline" color="black" size={25} />
                 </TouchableOpacity>
