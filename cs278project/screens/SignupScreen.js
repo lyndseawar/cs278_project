@@ -25,7 +25,13 @@ const createUserDocument = async (user, additionalData) => {
   const snapshot = await getDoc(userRef);
   //if there isn't any data there, create it
   if (!snapshot.exists()) {
-    const { displayName, joinDate, thisYear, showerThought, nerdiestThing } = additionalData;
+    const { displayName, 
+            joinDate, 
+            thisYear, 
+            showerThought, 
+            nerdiestThing, 
+            favoriteActivity 
+          } = additionalData;
     try {
       await setDoc(userRef, {
         displayName,
@@ -34,6 +40,7 @@ const createUserDocument = async (user, additionalData) => {
         thisYear,
         showerThought,
         nerdiestThing,
+        favoriteActivity,
         //any other data that we want to store
       });
       return getUserDocument(user.uid);
@@ -75,6 +82,7 @@ export const SignupScreen = ({ navigation }) => {
       thisYear: "",
       showerThought: "",
       nerdiestThing: "",
+      favoriteActivity: "",
 
       // extra data
       joinDate: new Date(), //current data
@@ -84,7 +92,15 @@ export const SignupScreen = ({ navigation }) => {
   });
 
   const handleSignup = async (values) => {
-    const { email, password, firstName, lastName, thisYear, showerThought, nerdiestThing } = values;
+    const { email, 
+            password, 
+            firstName, 
+            lastName, 
+            thisYear, 
+            showerThought, 
+            nerdiestThing, 
+            favoriteActivity 
+          } = values;
     const displayName = `${firstName} ${lastName}`;
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -99,6 +115,7 @@ export const SignupScreen = ({ navigation }) => {
         thisYear,
         showerThought,
         nerdiestThing,
+        favoriteActivity,
       });
       if (!userDoc) {
         Alert.alert("Error", "Something went wrong signing up");
@@ -190,6 +207,20 @@ export const SignupScreen = ({ navigation }) => {
           <FormErrorMessage
             error={formik.errors.confirmPassword}
             visible={formik.touched.confirmPassword}
+          />
+
+          <TextInput
+            style={styles.input}
+            name="favoriteActivity"
+            placeholder="Some of my favorite activities are..."
+            autoCapitalize="none"
+            onChangeText={formik.handleChange("favoriteActivity")}
+            onBlur={formik.handleBlur("favoriteActivity")}
+            value={formik.values.favoriteActivity}
+          />
+          <FormErrorMessage
+            error={formik.errors.thisYear}
+            visible={formik.touched.thisYear}
           />
 
           <TextInput

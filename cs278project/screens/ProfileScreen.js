@@ -14,6 +14,7 @@ import { auth } from "../config";
 
 export const ProfileScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
+  const [favoriteActivity, setFavoriteActivity] = useState("");
   const [thisYearPrompt, setThisYearPrompt] = useState("");
   const [showerThoughtPrompt, setShowerThoughtPrompt] = useState("");
   const [nerdiestThingPrompt, setNerdiestThingPrompt] = useState("");
@@ -36,6 +37,7 @@ export const ProfileScreen = ({ navigation }) => {
       const docSnap = await getDoc(userDocRef);
       if (docSnap.exists()) {
         setUsername(docSnap.data().displayName); // also update the username
+        setFavoriteActivity(docSnap.data().favoriteActivity);
         setThisYearPrompt(docSnap.data().thisYear);
         setShowerThoughtPrompt(docSnap.data().showerThought);
         setNerdiestThingPrompt(docSnap.data().nerdiestThing);
@@ -59,25 +61,26 @@ export const ProfileScreen = ({ navigation }) => {
     <ScrollView style={styles.ScrollView}>
       <View>
         <Text style={styles.header}>Favorite Plate Activities</Text>
-        <Text style={styles.plateTime}>meals, sports, dance shows</Text>
+        <Text style={styles.plateTime}>{ favoriteActivity ? favoriteActivity : "Loading..." }</Text>
       </View>
       <View>
         <Text style={styles.header}>My prompts</Text>
         <Text style={styles.prompt}>This year, I really want to...</Text>
-        <Text style={styles.promptAnswer}>{thisYearPrompt ? thisYearPrompt : "Loading..."}</Text>
+        <Text style={styles.promptAnswer}>{ thisYearPrompt ? thisYearPrompt : "Loading..." }</Text>
         <Text style={styles.prompt}>A shower thought I recently had...</Text>
-        <Text style={styles.promptAnswer}>{showerThoughtPrompt ? showerThoughtPrompt : "Loading..."}</Text>
+        <Text style={styles.promptAnswer}>{ showerThoughtPrompt ? showerThoughtPrompt : "Loading..." }</Text>
         <Text style={styles.prompt}>The nerdiest thing about me is...</Text>
-        <Text style={styles.promptAnswer}>{nerdiestThingPrompt ? nerdiestThingPrompt : "Loading..."}</Text>
+        <Text style={styles.promptAnswer}>{ nerdiestThingPrompt ? nerdiestThingPrompt : "Loading..." }</Text>
       </View>
       <View>
-        <Text style={styles.header}>Upcoming Plates?</Text>
-        <Text style={styles.plateTime}>things this person has comitted to?</Text>
+        <Text style={styles.header}>Upcoming PlateDates</Text>
+        {/* TODO: add propose cards that this user has committed to */}
+        <Text style={styles.plateTime}>**Show cards here that this user has committed to.**</Text>
       </View>
-      <View>
+      {/* <View>
         <Text style={styles.header}>My Plates</Text>
         <Text style={styles.plateTime}>things this person has planned?</Text>
-      </View>
+      </View> */}
       <View>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>Log Out</Text>

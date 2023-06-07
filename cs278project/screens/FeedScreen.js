@@ -65,13 +65,13 @@ export function FeedScreen() {
       <View style={styles.topBar}>
         <View style={styles.filterContainer}>
           <TouchableOpacity
-            style={styles.buttonStyle}
+            style={filter==="sports" ? styles.filteredButtonStyle : styles.buttonStyle}
             onPress={() => handleFilter("sports")}
           >
             <Text style={styles.buttonTextStyle}>Sports Option</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.buttonStyle}
+            style={filter==="food" ? styles.filteredButtonStyle : styles.buttonStyle}
             onPress={() => handleFilter("food")}
           >
             <Text style={styles.buttonTextStyle}>Food Option</Text>
@@ -127,8 +127,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 8,
     borderWidth: 1,
+    borderColor: "#4B0082",
     marginHorizontal: 5,
     backgroundColor: "#4B0082",
+    borderRadius: 20,
+    padding: 9,
+  },
+  filteredButtonStyle: {
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: "#AC8FC7",
+    marginHorizontal: 5,
+    backgroundColor: "#AC8FC7",
     borderRadius: 20,
     padding: 9,
   },
