@@ -48,7 +48,6 @@ export function FeedScreen() {
   const handleDelete = async (id) => {
     try {
       //console.log("This should be the postId being deleted", id);
-      console.log("This should be the postId being deleted", id);
       //Remove the local state for immediate feedback
       setFeedData((prevData) => prevData.filter((item) => item.id !== id));
       //Delete the document from Firestore
