@@ -13,7 +13,7 @@ function PostCard({ item, handleCommit, userId }) {
   //userId  is now a prop passed down from the FeedScreen component
   const [committed, setCommitted] = useState(false);
   const [attendeesCount, setAttendeesCount] = useState(0); //add this state to store the number of attendees
-  const { activity, name, avatar, date, totalAttendeesNeeded } =
+  const { activity, name, avatar, date, totalAttendeesNeeded, activityCategory } =
     item;
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function PostCard({ item, handleCommit, userId }) {
       if (doc.exists()) {
         //count the number of attendees (ignoring fields that are not user IDs)
         const attendees = Object.keys(doc.data()).length;
-        setAttendeesCount(attendees); //update the sate with the number of attendees
+        setAttendeesCount(attendees); //update the state with the number of attendees
         //now you can use totalAttendees to determine if the current user is committed
         if (doc.data()[userId]) {
           setCommitted(true);
@@ -66,7 +66,7 @@ function PostCard({ item, handleCommit, userId }) {
           onPress={toggleCommit}
         >
           <Text style={styles.buttonText}>
-            {committed ? "going" : "i'm in!"}
+            {committed ? "Committed" : "Commit"}
           </Text>
         </TouchableOpacity>
       </View>
