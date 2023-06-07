@@ -9,7 +9,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { sortByDate, filterByCategory } from "../utils";
 import { db, auth } from "../config/firebase.js";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import PostCard from "../components/PostCard";
 
 export function FeedScreen() {
@@ -18,6 +18,8 @@ export function FeedScreen() {
   const [sort, setSort] = useState(null);
   const [feedData, setFeedData] = useState([]);
   const userId = auth.currentUser?.uid || "unknown"; //get the current user's ID
+
+  const [sortOrder, setSortOrder] = useState("asc"); //add this state to store the sort order
 
   const handleCommit = (activityId) => {
     if (!committedActivities.includes(activityId)) {
@@ -29,9 +31,55 @@ export function FeedScreen() {
     setFilter(category);
   };
 
-  const handleSort = (option) => {
-    setSort(option);
+  const handleSort = () => {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
+
+  useEffect(() => {
+    const fetchAndSortData = async () => {
+      const feedDataRef = collection(db, "feeddata");
+      const activityAttendeesRef = collection(db, "activityAttendees");
+
+      const feedSnapshot = await getDocs(feedDataRef);
+      const activitySnapshot = await getDocs(activityAttendeesRef);
+
+      const feedData = feedSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      const attendeesData = activitySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        totalAttendees: Object.keys(doc.data()).length,
+      }));
+
+      let mergeData = feedData.map((item) => {
+        const attendeesItem = attendeesData.find(
+          (item) => item.id === feedItem.id
+        );
+        const totalAttendees = attendeesItem ? attendeesItem.totalAttendees : 0;
+        const totalAttendeesNeeded = parseInt(
+          feedItem.totalAttendeesNeeded,
+          10
+        );
+        const ratio = totalAttendees / totalAttendeesNeeded;
+        return {
+          ...feedItem,
+          totalAttendees,
+          ratio,
+        };
+      });
+      mergeData.sort((a, b) => {
+        if (sortOrder === "asc") {
+          return a.ratio - b.ratio;
+        } else {
+          return b.ratio - a.ratio;
+        }
+      });
+      setFeedData(mergeData);
+    };
+    fetchAndSortData();
+  }, [sortOrder]);
 
   const fetchFeedData = () => {
     const feedDataRef = collection(db, "feeddata");
@@ -63,9 +111,13 @@ export function FeedScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.horzScrollView, { paddingTop: 15 }]}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={[styles.horzScrollView, { paddingTop: 15 }]}
+        >
           <View style={styles.filterContainer}>
-          <TouchableOpacity
+            <TouchableOpacity
               style={styles.buttonStyle}
               onPress={() => handleFilter("")}
             >
@@ -137,10 +189,7 @@ export function FeedScreen() {
           </View>
         </ScrollView>
         <View style={styles.sortContainer}>
-          <TouchableOpacity
-            style={styles.sortStyle}
-            onPress={() => handleSort("option1")}
-          >
+          <TouchableOpacity style={styles.sortStyle} onPress={handleSort}>
             <Ionicons name="filter-outline" color="white" size={25} />
           </TouchableOpacity>
           {/* Add more sort buttons as needed */}
