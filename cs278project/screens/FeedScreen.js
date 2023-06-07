@@ -43,7 +43,7 @@ export function FeedScreen() {
       const feedSnapshot = await getDocs(feedDataRef);
       const activitySnapshot = await getDocs(activityAttendeesRef);
 
-      const feedData = feedSnapshot.docs.map((doc) => ({
+      const tempfeedData = feedSnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
@@ -53,7 +53,7 @@ export function FeedScreen() {
         totalAttendees: Object.keys(doc.data()).length,
       }));
 
-      let mergeData = feedData.map((item) => {
+      let mergeData = tempfeedData.map((item) => {
         const attendeesItem = attendeesData.find(
           (item) => item.id === feedItem.id
         );
