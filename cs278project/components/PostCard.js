@@ -205,7 +205,6 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     position: "absolute",
-    backgroundColor: "red",
     borderRadius: 20,
     top: 5,
     right: 5,
