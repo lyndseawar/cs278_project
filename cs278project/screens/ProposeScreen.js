@@ -59,12 +59,8 @@ export const ProposeScreen = ({ navigation }) => {
         time,
         totalAttendeesNeeded,
         location,
+        notes
       };
-  
-      // Add the 'notes' field only if it is not empty or whitespace
-      if (notes.trim() !== "") {
-        docData.notes = notes;
-      }
   
       const docRef = await addDoc(collection(db, "feeddata"), docData);
   
@@ -237,7 +233,7 @@ export const ProposeScreen = ({ navigation }) => {
               onPress={() => {
                 handleDone();
               }}
-              disabled={!(activity && activityCategory && date && time && totalAttendeesNeeded && location && notes)}
+              disabled={!(activity && activityCategory && date && time && totalAttendeesNeeded && location)}
             >
               <Text style={styles.DoneButtonText}>Done</Text>
             </TouchableOpacity>
@@ -311,6 +307,9 @@ const styles = StyleSheet.create({
             height: 2,
         },
         shadowOpacity: 0.23,
+    },
+    picker: {
+        backgroundColor: "red"
     },
     pickerContainer: {
         height: 50,
