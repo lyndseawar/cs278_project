@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { signOut, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+// import { doc, getDoc } from "firebase/firestore";
+import PostCard from "../components/PostCard";
+import { collection, query, where, doc, getDoc, getDocs, onSnapshot } from "firebase/firestore";
 
 import { db } from "../config/firebase";
 import { auth } from "../config";
@@ -19,6 +21,13 @@ export const ProfileScreen = ({ navigation }) => {
   const [showerThoughtPrompt, setShowerThoughtPrompt] = useState("");
   const [nerdiestThingPrompt, setNerdiestThingPrompt] = useState("");
 
+  const [feedData, setFeedData] = useState([]);
+  const userId = auth.currentUser?.uid || "unknown";
+  const [committedActivities, setCommittedActivities] = useState([]);
+  const [ActivityAttendeeData, setActivityAttendeeData] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+
   // useLayoutEffect to update the header title
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -28,6 +37,12 @@ export const ProfileScreen = ({ navigation }) => {
 
   const handleLogout = () => {
     signOut(auth).catch((error) => console.log("Error logging out: ", error));
+  };
+
+  const handleCommit = (activityId) => {
+    if (!committedActivities.includes(activityId)) {
+      setCommittedActivities([...committedActivities, activityId]);
+    }
   };
 
   useEffect(() => {
@@ -46,16 +61,39 @@ export const ProfileScreen = ({ navigation }) => {
       }
     }
 
+    const fetchcommittedActivities = async (uid) => {
+      const feedDataRef = collection(db, "feeddata");
+      const unsub = onSnapshot(feedDataRef, (querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log("data", data);
+        setFeedData(data);
+      });
+      setIsLoading(false);
+      return () => unsub();
+    };
+
+
     // This will run when the component mounts and whenever auth state changes
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
         fetchUserProfile(user.uid); // Fetch the profile when a user is logged in
+        fetchcommittedActivities(user.uid);
       }
     });
+
+    console.log("feedData:", feedData);
+
 
     // Cleanup function
     return () => unsubscribe();
   }, []);
+
+  let filteredFeed = feedData.filter(
+    (item) => item.userId === userId
+  );
 
   return (
     <ScrollView style={styles.ScrollView}>
@@ -73,9 +111,19 @@ export const ProfileScreen = ({ navigation }) => {
         <Text style={styles.promptAnswer}>{ nerdiestThingPrompt ? nerdiestThingPrompt : "Loading..." }</Text>
       </View>
       <View>
-        <Text style={styles.header}>Upcoming PlateDates</Text>
-        {/* TODO: add propose cards that this user has committed to */}
-        <Text style={styles.plateTime}>**Show cards here that this user has committed to.**</Text>
+        <Text style={styles.header}>My PlateDates</Text>
+        {isLoading ? (
+          <Text>Loading...</Text>
+        ) : (
+          filteredFeed.map((item) => (
+            <PostCard
+              key={item.id}
+              item={item}
+              handleCommit={handleCommit}
+              userId={userId}
+            />
+          ))
+        )}
       </View>
       {/* <View>
         <Text style={styles.header}>My Plates</Text>
