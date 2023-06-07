@@ -9,7 +9,15 @@ import {
 import { signOut, onAuthStateChanged } from "firebase/auth";
 // import { doc, getDoc } from "firebase/firestore";
 import PostCard from "../components/PostCard";
-import { collection, query, where, doc, getDoc, getDocs, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
 
 import { db } from "../config/firebase";
 import { auth } from "../config";
@@ -59,7 +67,7 @@ export const ProfileScreen = ({ navigation }) => {
       } else {
         console.log("No such document!");
       }
-    }
+    };
 
     const fetchcommittedActivities = async (uid) => {
       const feedDataRef = collection(db, "feeddata");
@@ -68,47 +76,52 @@ export const ProfileScreen = ({ navigation }) => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log("data", data);
+        //This console.log is for helping nick see the data of the cards
+        // console.log("data", data);
         setFeedData(data);
       });
       setIsLoading(false);
       return () => unsub();
     };
 
-
     // This will run when the component mounts and whenever auth state changes
-    const unsubscribe = onAuthStateChanged(auth, user => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         fetchUserProfile(user.uid); // Fetch the profile when a user is logged in
         fetchcommittedActivities(user.uid);
       }
     });
-
-    console.log("feedData:", feedData);
-
+    //this console.log is for helping us see the whole data of the cards
+    //console.log("feedData:", feedData);
 
     // Cleanup function
     return () => unsubscribe();
   }, []);
 
-  let filteredFeed = feedData.filter(
-    (item) => item.userId === userId
-  );
+  let filteredFeed = feedData.filter((item) => item.userId === userId);
 
   return (
     <ScrollView style={styles.ScrollView}>
       <View>
         <Text style={styles.header}>Favorite Plate Activities</Text>
-        <Text style={styles.plateTime}>{ favoriteActivity ? favoriteActivity : "Loading..." }</Text>
+        <Text style={styles.plateTime}>
+          {favoriteActivity ? favoriteActivity : "Loading..."}
+        </Text>
       </View>
       <View>
         <Text style={styles.header}>My prompts</Text>
         <Text style={styles.prompt}>This year, I really want to...</Text>
-        <Text style={styles.promptAnswer}>{ thisYearPrompt ? thisYearPrompt : "Loading..." }</Text>
+        <Text style={styles.promptAnswer}>
+          {thisYearPrompt ? thisYearPrompt : "Loading..."}
+        </Text>
         <Text style={styles.prompt}>A shower thought I recently had...</Text>
-        <Text style={styles.promptAnswer}>{ showerThoughtPrompt ? showerThoughtPrompt : "Loading..." }</Text>
+        <Text style={styles.promptAnswer}>
+          {showerThoughtPrompt ? showerThoughtPrompt : "Loading..."}
+        </Text>
         <Text style={styles.prompt}>The nerdiest thing about me is...</Text>
-        <Text style={styles.promptAnswer}>{ nerdiestThingPrompt ? nerdiestThingPrompt : "Loading..." }</Text>
+        <Text style={styles.promptAnswer}>
+          {nerdiestThingPrompt ? nerdiestThingPrompt : "Loading..."}
+        </Text>
       </View>
       <View>
         <Text style={styles.header}>My PlateDates</Text>
