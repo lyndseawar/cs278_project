@@ -6,6 +6,7 @@ import {
   updateDoc,
   deleteField,
   setDoc,
+  getDoc,
 } from "firebase/firestore";
 import { db, auth } from "../config/firebase.js";
 
@@ -13,8 +14,8 @@ function PostCard({ item, handleCommit, userId }) {
   //userId  is now a prop passed down from the FeedScreen component
   const [committed, setCommitted] = useState(false);
   const [attendeesCount, setAttendeesCount] = useState(0); //add this state to store the number of attendees
-  const { activity, name, avatar, date, totalAttendeesNeeded, activityCategory } =
-    item;
+  const [userName, setUserName] = useState(""); //add this state to store the user's display name
+  const { activity, name, date, totalAttendeesNeeded, activityCategory } = item;
 
   useEffect(() => {
     const docRef = doc(db, "activityAttendees", item.id);
@@ -34,6 +35,7 @@ function PostCard({ item, handleCommit, userId }) {
     return unsubscribe;
   }, [item.id, userId]);
 
+  //a function to toggle the user's commitment
   const toggleCommit = async () => {
     try {
       const docRef = doc(db, "activityAttendees", item.id);
@@ -48,11 +50,39 @@ function PostCard({ item, handleCommit, userId }) {
     }
   };
 
+  //a function to get the users name and display it
+  const getDisplayName = (fullName) => {
+    if (fullName) {
+      const nameArray = fullName.split(" ");
+      if (nameArray.length === 2) {
+        const firstName = nameArray[0];
+        const lastInitial = nameArray[1].charAt(0);
+        return `${firstName} ${lastInitial}.`;
+      }
+    }
+    return fullName;
+  };
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const userRef = doc(db, "users", item.userId);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const fullName = userSnap.data().displayName;
+        const nameArr = fullName.split(" ");
+        const displayName = `${nameArr[0]} ${nameArr[1].charAt(0)}.`;
+        setUserName(displayName);
+      } else {
+        console.log("No such user!");
+      }
+    };
+    fetchUserName();
+  }, [item.userId]);
+
   return (
     <View style={styles.card}>
       <View style={styles.headerContainer}>
-        <Image source={avatar} style={styles.avatar} />
-        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.name}>{userName}</Text>
       </View>
       <Text style={styles.activity}>{activity}</Text>
       <Text style={styles.date}>{date}</Text>
