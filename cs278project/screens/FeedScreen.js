@@ -80,6 +80,12 @@ export function FeedScreen() {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonStyle}
+              onPress={() => handleFilter("study date")}
+            >
+              <Text style={styles.buttonTextStyle}>Study Date</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
               onPress={() => handleFilter("food")}
             >
               <Text style={styles.buttonTextStyle}>Food</Text>
@@ -90,12 +96,7 @@ export function FeedScreen() {
             >
               <Text style={styles.buttonTextStyle}>Arts</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              onPress={() => handleFilter("study date")}
-            >
-              <Text style={styles.buttonTextStyle}>Study Date</Text>
-            </TouchableOpacity>
+            
             <TouchableOpacity
               style={styles.buttonStyle}
               onPress={() => handleFilter("adventure")}
@@ -169,6 +170,7 @@ const styles = StyleSheet.create({
   topBar: {
     flexDirection: "row",
     alignItems: "center",
+    flexDirection: "row",
     justifyContent: "space-between",
   },
   filterContainer: {
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     borderRadius: 20,
     paddingHorizontal: 15,
-    paddingVertical: 8,
+    // paddingVertical: 8,
     borderWidth: 1,
     borderColor: "#4B0082",
     marginHorizontal: 5,
@@ -193,24 +195,22 @@ const styles = StyleSheet.create({
   },
   filteredButtonStyle: {
     borderRadius: 20,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
     borderWidth: 1,
     borderColor: "#AC8FC7",
-    marginHorizontal: 5,
     backgroundColor: "#AC8FC7",
-    borderRadius: 20,
-    padding: 9,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    marginHorizontal: 5,
   },
   buttonTextStyle: {
     color: "white",
   },
   sortStyle: {
     borderRadius: 55,
-    paddingHorizontal: 4,
-    paddingVertical: 3,
     borderWidth: 1,
     marginHorizontal: 12,
+    paddingHorizontal: 4,
+    paddingVertical: 3,
     backgroundColor: "#4B0082",
   },
   postCard: {
@@ -220,8 +220,7 @@ const styles = StyleSheet.create({
     borderColor: "gray",
   },
   horzScrollView: {
-    alignItems: "center",
-    justifyContent: "center",
+    paddingLeft: 10,
   },
 });
 
