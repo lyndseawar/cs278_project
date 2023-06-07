@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
     },
     picker: {
-        backgroundColor: "red"
+        backgroundColor: "white"
     },
     pickerContainer: {
         height: 50,
