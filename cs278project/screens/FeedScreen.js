@@ -63,21 +63,71 @@ export function FeedScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <View style={styles.filterContainer}>
-          <TouchableOpacity
-            style={filter==="sports" ? styles.filteredButtonStyle : styles.buttonStyle}
-            onPress={() => handleFilter("sports")}
-          >
-            <Text style={styles.buttonTextStyle}>Sports Option</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={filter==="food" ? styles.filteredButtonStyle : styles.buttonStyle}
-            onPress={() => handleFilter("food")}
-          >
-            <Text style={styles.buttonTextStyle}>Food Option</Text>
-          </TouchableOpacity>
-          {/* Add more filter buttons as needed */}
-        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.horzScrollView, { paddingTop: 15 }]}>
+          <View style={styles.filterContainer}>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("sports")}
+            >
+              <Text style={styles.buttonTextStyle}>Sports</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("food")}
+            >
+              <Text style={styles.buttonTextStyle}>Food</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("arts")}
+            >
+              <Text style={styles.buttonTextStyle}>Arts</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("study date")}
+            >
+              <Text style={styles.buttonTextStyle}>Study Date</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("adventure")}
+            >
+              <Text style={styles.buttonTextStyle}>Adventure</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("games")}
+            >
+              <Text style={styles.buttonTextStyle}>Games</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("volunteering")}
+            >
+              <Text style={styles.buttonTextStyle}>Volunteering</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("fitness")}
+            >
+              <Text style={styles.buttonTextStyle}>Fitness</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("book club")}
+            >
+              <Text style={styles.buttonTextStyle}>Book Club</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("other")}
+            >
+              <Text style={styles.buttonTextStyle}>Other</Text>
+            </TouchableOpacity>
+            {/* Add more filter buttons as needed */}
+          </View>
+        </ScrollView>
         <View style={styles.sortContainer}>
           <TouchableOpacity
             style={styles.sortStyle}
@@ -88,6 +138,7 @@ export function FeedScreen() {
           {/* Add more sort buttons as needed */}
         </View>
       </View>
+
       <ScrollView contentContainerStyle={styles.scrollView}>
         {filteredFeed.map((item) => (
           <PostCard
@@ -160,6 +211,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: "gray",
+  },
+  horzScrollView: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
