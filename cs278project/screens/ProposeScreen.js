@@ -127,13 +127,13 @@ export const ProposeScreen = ({ navigation }) => {
             >
                 <Picker.Item label="food" value="food" />
                 <Picker.Item label="sports" value="sports" />
-                <Picker.Item label="study date" value="study" />
+                <Picker.Item label="study date" value="study date" />
                 <Picker.Item label="arts" value="arts" />
                 <Picker.Item label="adventure" value="adventure" />
                 <Picker.Item label="games" value="games" />
                 <Picker.Item label="volunteering" value="volunteering" />
                 <Picker.Item label="fitness" value="fitness" />
-                <Picker.Item label="book club" value="book" />
+                <Picker.Item label="book club" value="book club" />
                 <Picker.Item label="other" value="other" />
               </Picker>
             )}

@@ -65,6 +65,13 @@ export function FeedScreen() {
       <View style={styles.topBar}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={[styles.horzScrollView, { paddingTop: 15 }]}>
           <View style={styles.filterContainer}>
+          <TouchableOpacity
+              style={styles.buttonStyle}
+              onPress={() => handleFilter("")}
+            >
+              <Text style={styles.buttonTextStyle}>All</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.buttonStyle}
               onPress={() => handleFilter("sports")}
