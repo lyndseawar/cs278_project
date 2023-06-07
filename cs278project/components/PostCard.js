@@ -132,8 +132,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   name: {
-    fontFamily: "Poppins-Regular",
-    fontSize: 12,
+    fontFamily: "Poppins-Bold",
+    fontSize: 25,
   },
   activity: {
     fontFamily: "Poppins-Regular",
