@@ -209,32 +209,36 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: 55
   },
   topBar: {
+    // flexDirection: "row",
+    // alignItems: "center",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    // backgroundColor: "red"
     flexDirection: "row",
     alignItems: "center",
-    flexDirection: "row",
     justifyContent: "space-between",
+    // backgroundColor: "red",
   },
   filterContainer: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    // backgroundColor: "pink"
   },
   sortContainer: {
-    justifyContent: "flex-end",
-    backgroundColor: "transparent",
+    // justifyContent: "flex-end",
+    // backgroundColor: "transparent",
+    // backgroundColor: "yellow"
   },
   buttonStyle: {
     borderRadius: 20,
     paddingHorizontal: 15,
-    // paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: "#4B0082",
+    paddingVertical: 8,
     marginHorizontal: 5,
     backgroundColor: "#4B0082",
-    borderRadius: 20,
-    padding: 9,
   },
   filteredButtonStyle: {
     borderRadius: 20,
@@ -264,6 +268,7 @@ const styles = StyleSheet.create({
   },
   horzScrollView: {
     paddingLeft: 10,
+    paddingBottom: 15
   },
 });
 
